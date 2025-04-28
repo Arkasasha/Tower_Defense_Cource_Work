@@ -1,5 +1,5 @@
 from settings import *
-from levels import Level1
+from levels import Level
 from pytmx.util_pygame import load_pygame
 
 from random import randint
@@ -15,7 +15,7 @@ class Game:
         self.setup()
 
     def setup(self):
-        self.level = Level1()
+        self.level = Level()
         self.level.setup()
 
 

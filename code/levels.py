@@ -1,8 +1,9 @@
 from settings import *
 from sprites import Terrain, Portal
-from groups import LevelSprites
+from groups import LevelSprites, TowerSprites
+from towers import Tower
 
-class Level1:
+class Level:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
         self.clock = pygame.time.Clock()
@@ -10,6 +11,7 @@ class Level1:
         # groups 
         self.level_sprites = LevelSprites()
         self.collison_sprites = pygame.sprite.Group()
+        self.tower_sprites = TowerSprites()
 
         self.setup()
     
@@ -41,6 +43,9 @@ class Level1:
         # Load a portal
         portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
         Portal(portal_surf, self.level_sprites)
+
+        tower_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'Tower', 'tower.png')).convert_alpha()
+        Tower(tower_surf, (self.level_sprites, self.tower_sprites))
 
     def run_the_level(self):
         dt = self.clock.tick() / 1000

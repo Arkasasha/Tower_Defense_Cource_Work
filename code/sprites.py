@@ -18,8 +18,11 @@ class Portal(pygame.sprite.Sprite):
         self.rotation_speed = 300
         self.rotation_angle = 0
     
-    def update(self, dt):
+    def rotate(self, dt):
         self.rotation_angle += self.rotation_speed * dt
         self.image = pygame.transform.rotozoom(
             self.orig_surf, self.rotation_angle, 2.5)
         self.rect = self.image.get_frect(center = self.rect.center)
+        
+    def update(self, dt):
+        self.rotate(dt)
