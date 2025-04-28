@@ -3,18 +3,36 @@ from settings import *
 class TowerHitbox(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
-        self.image = 0
+        self.hitbox = True
+
+        pos = pygame.Vector2(pygame.mouse.get_pos())
+        self.rect = pygame.Rect(pos.x - TILE_SIZE, pos.y - TILE_SIZE, TILE_SIZE * 2, TILE_SIZE * 2)
+        self.color = (240, 240, 240)
+        self.image = pygame.Surface((self.rect.width, self.rect.height))
+        self.image.fill(self.color)
+    
+    def update_pos(self, pos):
+        self.rect.center = pos
+
+    def draw(self):
+        pygame.draw.rect(self.surface, self.color, self.rect)
+
+
 
 class Tower(pygame.sprite.Sprite):
     def __init__(self, surf, grid, groups):
         super().__init__(groups)
+        # status
         self.grid = grid
+        self.placed = False
         
         # Get an image and a rect
         self.image = surf
         self.rect = self.image.get_frect(center = pygame.Vector2(pygame.mouse.get_pos()))
 
-        self.placed = False
+        # hitbox
+        self.hitbox = TowerHitbox(groups[0])
+        
 
     def check_place(self):
         x = int(self.rect.centerx / TILE_SIZE)
@@ -34,15 +52,17 @@ class Tower(pygame.sprite.Sprite):
         self.grid[y-1][x-1] = True
 
     def place_tower(self):
-        if not self.placed:
-            x_count = pygame.Vector2(pygame.mouse.get_pos()).x / TILE_SIZE
-            y_count = pygame.Vector2(pygame.mouse.get_pos()).y / TILE_SIZE
-            new_x = int(x_count) * TILE_SIZE if x_count % 1 <= 0.5 else (int(x_count) + 1) * TILE_SIZE
-            new_y = int(y_count) * TILE_SIZE if y_count % 1 <= 0.5 else (int(y_count) + 1) * TILE_SIZE
-            self.rect.center = (new_x, new_y)
-            if pygame.mouse.get_just_pressed()[0]:
-                if self.check_place():
-                    self.reserve_place()
+        x_count = pygame.Vector2(pygame.mouse.get_pos()).x / TILE_SIZE
+        y_count = pygame.Vector2(pygame.mouse.get_pos()).y / TILE_SIZE
+        new_x = int(x_count) * TILE_SIZE if x_count % 1 <= 0.5 else (int(x_count) + 1) * TILE_SIZE
+        new_y = int(y_count) * TILE_SIZE if y_count % 1 <= 0.5 else (int(y_count) + 1) * TILE_SIZE
+        self.rect.center = (new_x, new_y)
+        self.hitbox.update_pos((self.rect.centerx, self.rect.centery))
+        if pygame.mouse.get_just_pressed()[0]:
+            if self.check_place():
+                self.reserve_place()
+                self.hitbox.kill()
                     
     def update(self, dt):
-        self.place_tower()
+        if not self.placed:
+            self.place_tower()
