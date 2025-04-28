@@ -16,7 +16,6 @@ class Game:
 
     def setup(self):
         self.level = Level()
-        self.level.setup()
 
 
     def run_the_game(self):

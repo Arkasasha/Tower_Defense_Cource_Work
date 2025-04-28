@@ -13,6 +13,13 @@ class Level:
         self.collison_sprites = pygame.sprite.Group()
         self.tower_sprites = TowerSprites()
 
+        # tower grid
+        self.tower_grid = [[]]
+        for i in range(int(WINDOW_HEIGHT / TILE_SIZE)):
+            for j in range(int(WINDOW_WIDTH / TILE_SIZE)):
+                self.tower_grid[i].append(False)
+            self.tower_grid.append([])
+
         self.setup()
     
     def setup(self):
@@ -45,7 +52,7 @@ class Level:
         Portal(portal_surf, self.level_sprites)
 
         tower_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'Tower', 'tower.png')).convert_alpha()
-        Tower(tower_surf, (self.level_sprites, self.tower_sprites))
+        Tower(tower_surf, self.tower_grid, (self.level_sprites, self.tower_sprites))
 
     def run_the_level(self):
         dt = self.clock.tick() / 1000
@@ -54,5 +61,6 @@ class Level:
 
         self.display_surface.fill('#000000')
         self.level_sprites.draw(self.display_surface)
+
         pygame.display.flip()
 
