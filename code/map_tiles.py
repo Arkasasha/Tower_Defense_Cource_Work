@@ -31,4 +31,6 @@ class Decoration(Terrain):
         self.decoration = True
 
 class Castle(Terrain):
-    pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.castle = True
