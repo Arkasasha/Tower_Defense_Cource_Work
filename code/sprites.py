@@ -6,36 +6,6 @@ class Terrain(pygame.sprite.Sprite):
         self.image = surf
         self.rect = self.image.get_frect(topleft = pos)
 
-class Ground(Terrain):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ground = True
-
-class Bridge(Terrain):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.bridge = True
-
-class River(Terrain):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.river = True
-
-class Forest(Terrain):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.forest = True
-
-class Path(Terrain):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.path = True
-    
-class Decoration(Terrain):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.decoration = True
-
 class Portal(pygame.sprite.Sprite):
     def __init__(self, surf, groups):
         super().__init__(groups)

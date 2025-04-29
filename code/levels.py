@@ -1,7 +1,8 @@
 from settings import *
-from sprites import *
+from map_tiles import *
+from sprites import Portal
 from groups import LevelSprites, TowerSprites
-from towers import Tower
+from tower import Tower
 
 class Level:
     def __init__(self):
