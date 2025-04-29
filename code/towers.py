@@ -1,4 +1,5 @@
 from settings import *
+from groups import LevelSprites
 
 class TowerHitbox(pygame.sprite.Sprite):
     def __init__(self, groups):
@@ -10,14 +11,13 @@ class TowerHitbox(pygame.sprite.Sprite):
         self.color = (240, 240, 240)
         self.image = pygame.Surface((self.rect.width, self.rect.height))
         self.image.fill(self.color)
+        self.image.set_alpha(140)
     
     def update_pos(self, pos):
         self.rect.center = pos
 
     def draw(self):
         pygame.draw.rect(self.surface, self.color, self.rect)
-
-
 
 class Tower(pygame.sprite.Sprite):
     def __init__(self, surf, grid, groups):
@@ -31,15 +31,16 @@ class Tower(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(center = pygame.Vector2(pygame.mouse.get_pos()))
 
         # hitbox
-        self.hitbox = TowerHitbox(groups[0])
+        self.tower_hitbox = TowerHitbox(groups[0])
+        self.tower = True
         
-
     def check_place(self):
         x = int(self.rect.centerx / TILE_SIZE)
         y = int(self.rect.centery / TILE_SIZE)
         tiles = [self.grid[y][x], self.grid[y][x-1], self.grid[y-1][x], self.grid[y-1][x-1]]
         if all(not tile for tile in tiles):
-            return True
+            if LevelSprites().check_ground(self.tower_hitbox.rect):
+                return True
         return False
 
     def reserve_place(self):
@@ -57,11 +58,11 @@ class Tower(pygame.sprite.Sprite):
         new_x = int(x_count) * TILE_SIZE if x_count % 1 <= 0.5 else (int(x_count) + 1) * TILE_SIZE
         new_y = int(y_count) * TILE_SIZE if y_count % 1 <= 0.5 else (int(y_count) + 1) * TILE_SIZE
         self.rect.center = (new_x, new_y)
-        self.hitbox.update_pos((self.rect.centerx, self.rect.centery))
+        self.tower_hitbox.update_pos((self.rect.centerx, self.rect.centery))
         if pygame.mouse.get_just_pressed()[0]:
             if self.check_place():
                 self.reserve_place()
-                self.hitbox.kill()
+                self.tower_hitbox.kill()
                     
     def update(self, dt):
         if not self.placed:

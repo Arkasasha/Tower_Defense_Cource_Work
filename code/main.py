@@ -17,7 +17,6 @@ class Game:
     def setup(self):
         self.level = Level()
 
-
     def run_the_game(self):
         while self.running:
             for event in pygame.event.get():
