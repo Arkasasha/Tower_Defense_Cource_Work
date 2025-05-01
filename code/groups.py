@@ -20,7 +20,8 @@ class LevelSprites(pygame.sprite.Group):
         portal_sprites = [sprite for sprite in self if hasattr(sprite, 'portal')]
         hitbox_sprites = [sprite for sprite in self if hasattr(sprite, 'hitbox')]
         tower_sprites = [sprite for sprite in self if hasattr(sprite, 'tower')]
-        for layer in [terrain_sprites, portal_sprites, hitbox_sprites, tower_sprites]:
+        enemie_sprites = [sprite for sprite in self if hasattr(sprite, 'isenemie')]
+        for layer in [terrain_sprites, portal_sprites, hitbox_sprites, tower_sprites, enemie_sprites]:
             for sprite in layer:
                 self.display_surface.blit(sprite.image, sprite.rect.topleft)
 

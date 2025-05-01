@@ -3,6 +3,7 @@ from map_tiles import *
 from sprites import Portal
 from groups import LevelSprites, TowerSprites
 from tower import Tower
+from enemy import Enemy
 
 class Level:
     def __init__(self):
@@ -47,26 +48,49 @@ class Level:
         
         for x, y, image in map.get_layer_by_name('Add').tiles():
             Decoration(image, (x * TILE_SIZE, y * TILE_SIZE), self.level_sprites)
-        
+
+        #Load objects
+        self.turn_lines = [] 
+
+        for obj in map.get_layer_by_name("Objects"):
+            if obj.name == "Spawn":
+                self.spawn_line = obj
+            elif obj.name in ("1", "2"): 
+                polygon_points = [(p[0], p[1]) for p in obj.points]
+                self.turn_lines.append((polygon_points, obj.name))
+                print(polygon_points, obj.name)
+
         # Load a portal
-        portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
+        portal_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
         Portal(portal_surf, self.level_sprites)
 
-        tower_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'Tower', 'tower.png')).convert_alpha()
+        tower_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
         Tower(tower_surf, self.tower_grid, (self.level_sprites, self.tower_sprites))
+
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
+        Enemy(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
+            
+                
 
     def run_the_level(self):
         dt = self.clock.tick() / 1000
         
         keys = pygame.key.get_just_pressed()
         if keys[pygame.K_o]:
-            tower_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'Tower', 'tower.png')).convert_alpha()
+            tower_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
             Tower(tower_surf, self.tower_grid, (self.level_sprites, self.tower_sprites))
 
         self.level_sprites.update(dt)
 
         self.display_surface.fill('#000000')
         self.level_sprites.draw()
+        
+        # Проверка линий
+        for polygon, _ in self.turn_lines:
+            pygame.draw.polygon(self.display_surface, 'red', polygon, 2)
+        # Отладка: рисуем линию спавна
+        spawn_points = [(self.spawn_line.x + p[0], self.spawn_line.y + p[1]) for p in self.spawn_line.points]
+        pygame.draw.lines(self.display_surface, 'blue', False, spawn_points, 2)
 
         pygame.display.flip()
 
