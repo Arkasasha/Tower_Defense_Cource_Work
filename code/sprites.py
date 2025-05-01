@@ -13,7 +13,7 @@ class Portal(pygame.sprite.Sprite):
         self.image = surf
         self.rect = self.image.get_frect(
             center = pygame.Vector2(48, 128))
-        self.portal = True
+        self.isportal = True
 
         self.rotation_speed = 300
         self.rotation_angle = 0

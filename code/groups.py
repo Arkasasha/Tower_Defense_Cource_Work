@@ -18,11 +18,12 @@ class LevelSprites(pygame.sprite.Group):
 
     def draw(self):
         terrain_sprites = [sprite for sprite in self if issubclass(type(sprite), Terrain)]
-        portal_sprites = [sprite for sprite in self if hasattr(sprite, 'portal')]
-        range_sprites = [sprite for sprite in self if hasattr(sprite, 'isrange')]
-        hitbox_sprites = [sprite for sprite in self if hasattr(sprite, 'hitbox')]
-        tower_sprites = [sprite for sprite in self if hasattr(sprite, 'tower')]
-        for layer in [terrain_sprites, portal_sprites, range_sprites, hitbox_sprites, tower_sprites]:
+        portal_sprites = [sprite for sprite in self if hasattr(sprite, 'isportal')]
+        range_sprites = [sprite for sprite in self if hasattr(sprite, 'istower_range')]
+        hitbox_sprites = [sprite for sprite in self if hasattr(sprite, 'istower_hitbox')]
+        tower_sprites = [sprite for sprite in self if hasattr(sprite, 'istower')]
+        tower_heads = [sprite for sprite in self if hasattr(sprite, 'istower_head')]
+        for layer in [terrain_sprites, portal_sprites, range_sprites, hitbox_sprites, tower_sprites, tower_heads]:
             for sprite in layer:
                 self.display_surface.blit(sprite.image, (sprite.rect.topleft[0] + self.offset, sprite.rect.topleft[1] + self.offset))
 
