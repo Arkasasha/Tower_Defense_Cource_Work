@@ -1,5 +1,7 @@
 from settings import *
 from groups import LevelSprites
+from math import atan2, degrees
+
 
 class TowerRange(pygame.sprite.Sprite):
     def __init__(self, surf, pos, groups):
@@ -30,11 +32,35 @@ class TowerHitbox(pygame.sprite.Sprite):
         pygame.draw.rect(self.surface, self.color, self.rect)
 
 class TowerHead(pygame.sprite.Sprite):
-    def __init__(self, surf, pos, groups):
+    def __init__(self, surf, pos, tower, groups):
         super().__init__(groups)
+        self.original_image = surf
         self.image = surf
         self.rect = self.image.get_frect(center = pos)
+
+        self.tower = tower
         self.istower_head = True
+        
+        self.direction = pygame.Vector2()
+
+    def get_direction(self):
+        mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
+        new_direction = mouse_pos - pygame.Vector2(self.rect.center)
+        self.direction = new_direction.normalize() if new_direction.length() != 0 else self.direction
+
+    def rotate(self):
+        angle = degrees(atan2(self.direction.x, self.direction.y)) + 90
+        if self.direction.x > 0:
+            self.image = pygame.transform.rotozoom(self.original_image, -angle, 1)
+            self.image = pygame.transform.flip(self.image, False, True)
+        else:
+            self.image = pygame.transform.rotozoom(self.original_image, angle, 1)
+        self.rect = self.image.get_frect(center = self.tower.get_head_pos())
+
+    def update(self, dt):
+        self.get_direction()
+        if self.tower.get_state():
+            self.rotate()
 
 class Tower(pygame.sprite.Sprite):
     def __init__(self, grid, groups):
@@ -56,10 +82,17 @@ class Tower(pygame.sprite.Sprite):
         range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B.png')).convert_alpha()
         self.range = TowerRange(range_surf, self.rect.center, groups)
         tower_head = pygame.image.load(join('Game', 'Assets', 'Towers', 'cannon', '0.png'))
-        self.tower_head = TowerHead(tower_head, self.rect.midtop, LevelSprites())
+        self.tower_head = TowerHead(tower_head, self.rect.midtop, self, LevelSprites())
         self.tower_head_offset_x = 0
         self.tower_head_offset_y = 10
-        
+
+    def get_state(self):
+        return self.placed
+
+    def get_head_pos(self):
+        return (self.rect.midtop[0] + self.tower_head_offset_x,
+                 self.rect.midtop[1] + self.tower_head_offset_y)
+
     def check_place(self):
         x = int(self.rect.topleft[0] / TILE_SIZE)
         y = int(self.rect.topleft[1] / TILE_SIZE)
