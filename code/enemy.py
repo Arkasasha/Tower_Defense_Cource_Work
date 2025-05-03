@@ -5,15 +5,12 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__(groups)
 
         
-        start_x, start_y = spawn_line.x, spawn_line.y
-        rel_points = spawn_line.points
-        start = (start_x + rel_points[0][0], start_y + rel_points[0][1])
-        end = (start_x + rel_points[1][0], start_y + rel_points[1][1])
+        start_points, end_points = spawn_line[0], spawn_line[1]
 
         t = random.random()
-        spawn_x = start[0] + t * (end[0] - start[0])
-        spawn_y = start[1] + t * (end[1] - start[1])
-
+        spawn_x = random.randint(round(start_points[0]), round(end_points[0]))
+        spawn_y = random.randint(round(start_points[1]), round(end_points[1]))
+        
         self.image = surf
         self.rect = pygame.FRect(0, 0, 16, 16)
         self.rect.center = (spawn_x, spawn_y)
@@ -21,9 +18,9 @@ class Enemy(pygame.sprite.Sprite):
         self.hitbox = pygame.FRect(self.rect)
 
         self.pos = pygame.Vector2(self.rect.centerx, self.rect.bottom)
-
+        
         self.direction = pygame.Vector2(1, 0) # стартовое направление
-        self.speed = 200
+        self.speed = 50
 
         self.turn_lines = turn_lines
 
@@ -55,15 +52,17 @@ class Enemy(pygame.sprite.Sprite):
         self.pos += self.direction * self.speed * dt
         self.rect.center = (round(self.pos.x), round(self.pos.y))
 
-        bottom_center = (self.rect.centerx, self.rect.bottom)
+        bottom_center = self.rect.midbottom
 
-        # Повороты
+        print(self.turn_lines)
+            # Повороты 
         for polygon, turn_type in self.turn_lines:
             poly_id = id(polygon)
             if poly_id in self.turned_lines:
                 continue
 
-            if Enemy.point_in_polygon(bottom_center, polygon):
+            if bottom_center == self.turn_lines:
+                print("yes")
                 if turn_type == "1" and self.direction.x == 1:           # шёл направо →
                     self.direction = pygame.Vector2(0, 1)                # поворачивает вниз ↓
 
