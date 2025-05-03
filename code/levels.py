@@ -56,11 +56,12 @@ class Level:
             if obj.name == "Spawn":
                 self.spawn_line = [(p[0], p[1]) for p in obj.points]
                 # print(polygon_points, obj.id)
+                
             elif obj.name in ("1", "2"): 
                 polygon_points = [(p[0], p[1]) for p in obj.points]
                 self.turn_lines.append((polygon_points, obj.name))
                 # print(polygon_points, obj.id)
-
+        
         # Load a portal
         portal_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
         Portal(portal_surf, self.level_sprites)
