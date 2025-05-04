@@ -11,8 +11,8 @@ class TowerType(pygame.sprite.Sprite):
 class Cannon(TowerType):
     def __init__(self, grid, groups):
         super().__init__(groups[1])
-        tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'Tower', 'tower.png')).convert_alpha()
-        tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'Cannon', '0.png')).convert_alpha()
+        tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
+        tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'cannon', 'tower', '0.png')).convert_alpha()
         tower_range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B.png')).convert_alpha()
 
         self.tower_base = Tower(tower_base_surf, grid, groups[0])
