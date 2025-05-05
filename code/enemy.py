@@ -21,6 +21,8 @@ class Enemy(pygame.sprite.Sprite):
         
         self.direction = pygame.Vector2(1, 0) # стартовое направление
         self.speed = 50
+        self.next_type = 1
+        self.mark = True
 
         self.turn_lines = turn_lines
 
@@ -52,40 +54,55 @@ class Enemy(pygame.sprite.Sprite):
         self.pos += self.direction * self.speed * dt
         self.rect.center = (round(self.pos.x), round(self.pos.y))
 
-        bottom_center = self.rect.midbottom
+        # print(self.pos)
 
-        print(self.turn_lines)
+        bottom_center = self.rect.midbottom
+        distance = 0
+
+        # print(self.turn_lines)
             # Повороты 
-        for polygon, turn_type in self.turn_lines:
-            poly_id = id(polygon)
+
+        for turn_lines in self.turn_lines:
+            poly_id = id(turn_lines.points)
             if poly_id in self.turned_lines:
                 continue
+            
+            if turn_lines.name == self.next_type:
+                if self.mark == True:
+                    turn_line_points = (turn_lines.points)
+                    distance = abs((turn_line_points[1][0] - turn_line_points[0][0]) * (turn_line_points[0][1] - bottom_center[1]) -
+                                    (turn_line_points[0][0] - bottom_center[0]) * (turn_line_points[1][1] - turn_line_points[0][1])
+                                ) / math.sqrt(pow(turn_line_points[1][0] - turn_line_points[0][0], 2) + pow(turn_line_points[1][1] - turn_line_points[0][1], 2))
+                    self.mark = False
 
-            if bottom_center == self.turn_lines:
+            turn_line = (turn_lines.name, turn_lines.type)
+
+            if distance < 0.1:
                 print("yes")
-                if turn_type == "1" and self.direction.x == 1:           # шёл направо →
+                if turn_line[1] == "1" and self.direction.x == 1:           # шёл направо →
                     self.direction = pygame.Vector2(0, 1)                # поворачивает вниз ↓
 
-                elif turn_type == "1" and self.direction.x == -1:        # шёл налево ←
+                elif turn_line[1] == "1" and self.direction.x == -1:        # шёл налево ←
                     self.direction = pygame.Vector2(0, -1)               # поворачивает вверх ↑
 
-                elif turn_type == "1" and self.direction.y == 1:         # шёл вниз ↓
+                elif turn_line[1] == "1" and self.direction.y == 1:         # шёл вниз ↓
                     self.direction = pygame.Vector2(1, 0)                # поворачивает направо →
 
-                elif turn_type == "1" and self.direction.y == -1:        # шёл вверх ↑
+                elif turn_line[1] == "1" and self.direction.y == -1:        # шёл вверх ↑
                     self.direction = pygame.Vector2(-1, 0)               # поворачивает налево ←
                 
 
-                elif turn_type == "2" and self.direction.x == 1:         # шёл направо →
+                elif turn_line[1] == "2" and self.direction.x == 1:         # шёл направо →
                     self.direction = pygame.Vector2(0, -1)               # поворачивает вверх ↑
 
-                elif turn_type == "2" and self.direction.x == -1:        # шёл налево ←
+                elif turn_line[1] == "2" and self.direction.x == -1:        # шёл налево ←
                     self.direction = pygame.Vector2(0, 1)                # поворачивает вниз ↓
 
-                elif turn_type == "2" and self.direction.y == 1:         # шёл вниз ↓
+                elif turn_line[1] == "2" and self.direction.y == 1:         # шёл вниз ↓
                     self.direction = pygame.Vector2(-1, 0)               # поворачивает налево ←
 
-                elif turn_type == "2" and self.direction.y == -1:        # шёл вверх ↑
+                elif turn_line[1] == "2" and self.direction.y == -1:        # шёл вверх ↑
                     self.direction = pygame.Vector2(1, 0)                # поворачивает направо →
 
+                self.next_type =+1
                 self.turned_lines.add(poly_id)

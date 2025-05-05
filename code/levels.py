@@ -55,13 +55,14 @@ class Level:
         for obj in map.get_layer_by_name("Objects"):
             if obj.name == "Spawn":
                 self.spawn_line = [(p[0], p[1]) for p in obj.points]
-                # print(polygon_points, obj.id)
                 
-            elif obj.name in ("1", "2"): 
+            elif obj.type in ("1", "2"): 
                 polygon_points = [(p[0], p[1]) for p in obj.points]
-                self.turn_lines.append((polygon_points, obj.name))
-                # print(polygon_points, obj.id)
-        
+                turn_line = Turn_lines(polygon_points, obj.name, obj.type)
+                self.turn_lines.append(turn_line)
+        self.turn_lines.sort(key = lambda line: int(line.name))
+
+
         # Load a portal
         portal_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
         Portal(portal_surf, self.level_sprites)
@@ -88,8 +89,8 @@ class Level:
         self.level_sprites.draw()
         
         # Проверка линий
-        for polygon, _ in self.turn_lines:
-            pygame.draw.polygon(self.display_surface, 'red', polygon, 2)
+        for polygon in self.turn_lines:
+            pygame.draw.polygon(self.display_surface, 'red', polygon.points, 2)
         # Отладка: рисуем линию спавна
         pygame.draw.polygon(self.display_surface, 'blue', self.spawn_line, 2)
 

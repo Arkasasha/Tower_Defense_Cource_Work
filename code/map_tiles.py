@@ -33,12 +33,13 @@ class Decoration(Terrain):
 class Castle(Terrain):
     pass
 
-class Spawn_line(Terrain):
+class Spawn_line():
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.decoration = True
 
-class Turn_linea(Terrain):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.decoration = True
+class Turn_lines():
+    def __init__(self, polygon_points, name, type):
+        self.points = polygon_points
+        self.name = name
+        self.type = type
