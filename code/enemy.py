@@ -21,7 +21,7 @@ class Enemy(pygame.sprite.Sprite):
         self.hitbox = pygame.FRect(self.rect)
         
         self.direction = pygame.Vector2(1, 0) # стартовое направление
-        self.speed = 50
+        self.speed = 500
 
         # set lines
         self.next_line = 0
@@ -77,7 +77,6 @@ class Enemy(pygame.sprite.Sprite):
             self.set_next_line_distance()
 
     def check_turn(self):
-        print(self.next_line, self.turned_lines)
         if self.next_line not in self.turned_lines:
             turn_line = self.turn_lines[self.next_line]
             bottom_center = self.rect.midbottom
@@ -94,5 +93,8 @@ class Enemy(pygame.sprite.Sprite):
     def update(self, dt):
         self.move(dt)
         if self.check_turn():
-            self.make_a_turn()
+            if self.next_line + 1 == len(self.turn_lines):
+                self.kill()
+            else:
+                self.make_a_turn()
             
