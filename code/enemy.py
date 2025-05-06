@@ -4,7 +4,7 @@ from numpy import sign
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(groups)
-
+        self.isenemie = True
         
         start_points, end_points = spawn_line[0], spawn_line[1]
 
