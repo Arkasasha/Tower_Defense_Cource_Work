@@ -4,6 +4,7 @@ from sprites import Portal
 from groups import LevelSprites, TowerSprites
 from tower import Tower
 from tower_types import Cannon
+from enemy import Enemy
 
 class Level:
     def __init__(self):
@@ -52,9 +53,26 @@ class Level:
         for x, y, image in map.get_layer_by_name('Add').tiles():
             Decoration(image, (x * TILE_SIZE, y * TILE_SIZE), self.level_sprites)
 
+        #Load objects
+        self.turn_lines = [] 
+
+        for obj in map.get_layer_by_name("Objects"):
+            if obj.name == "Spawn":
+                self.spawn_line = [(p[0], p[1]) for p in obj.points]
+                
+            elif obj.type in ("1", "2"): 
+                polygon_points = [(p[0], p[1]) for p in obj.points]
+                turn_line = Turn_lines(polygon_points, obj.name, obj.type)
+                self.turn_lines.append(turn_line)
+        self.turn_lines.sort(key = lambda line: int(line.name))
+
+
         # Load a portal
-        portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
+        portal_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
         Portal(portal_surf, self.level_sprites)
+
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
+        Enemy(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)  
 
     def run_the_level(self):
         dt = self.clock.tick() / 1000
@@ -68,6 +86,12 @@ class Level:
 
         self.display_surface.fill('#A020F0')
         self.level_sprites.draw()
+        
+        # Проверка линий
+        for polygon in self.turn_lines:
+            pygame.draw.polygon(self.display_surface, 'red', polygon.points, 2)
+        # Отладка: рисуем линию спавна
+        pygame.draw.polygon(self.display_surface, 'blue', self.spawn_line, 2)
 
         pygame.display.flip()
 

@@ -34,3 +34,14 @@ class Castle(Terrain):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.castle = True
+
+class Spawn_line():
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.decoration = True
+
+class Turn_lines():
+    def __init__(self, polygon_points, name, type):
+        self.points = polygon_points
+        self.name = name
+        self.type = type
