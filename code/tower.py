@@ -11,7 +11,7 @@ class TowerRange(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (width * 2, height * 2))
         self.rect = self.image.get_frect(center = pos)
         self.mask = pygame.mask.from_surface(self.image)
-        # self.image = self.mask.to_surface()
+        self.image = self.mask.to_surface()
         self.tower = tower
         self.istower_range = True
         self.hasToBeShown = True
