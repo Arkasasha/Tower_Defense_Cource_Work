@@ -71,15 +71,16 @@ class Level:
         portal_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
         Portal(portal_surf, self.level_sprites)
 
-        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
-        Enemy(enemy_surf, self.spawn_line, self.turn_lines, (self.level_sprites, self.enemy_sprites))  
-
     def run_the_level(self):
         dt = self.clock.tick() / 1000
+        
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
         
         keys = pygame.key.get_just_pressed()
         if keys[pygame.K_o]:
             Cannon(self.tower_grid, (self.level_sprites, self.tower_sprites))
+        if keys[pygame.K_p]:
+            Enemy(enemy_surf, self.spawn_line, self.turn_lines, (self.level_sprites, self.enemy_sprites)) 
 
         self.level_sprites.update(dt)
         self.tower_sprites.update(dt)

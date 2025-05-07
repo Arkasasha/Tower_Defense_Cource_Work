@@ -4,14 +4,17 @@ from math import atan2, degrees
 
 
 class TowerRange(pygame.sprite.Sprite):
-    def __init__(self, surf, pos, tower, groups):
+    def __init__(self, surf, mask_surf, pos, tower, groups):
         super().__init__(groups)
+
         self.image = surf
         width, height = self.image.get_size()
         self.image = pygame.transform.scale(self.image, (width * 2, height * 2))
         self.rect = self.image.get_frect(center = pos)
-        self.mask = pygame.mask.from_surface(self.image)
-        self.image = self.mask.to_surface()
+
+        mask_surf = pygame.transform.scale(mask_surf, (width * 2, height * 2))
+        self.mask = pygame.mask.from_surface(mask_surf)
+
         self.tower = tower
         self.istower_range = True
         self.hasToBeShown = True
@@ -23,25 +26,20 @@ class TowerRange(pygame.sprite.Sprite):
         self.update_pos()
 
 class TowerHitbox(pygame.sprite.Sprite):
-    def __init__(self, tower, groups):
+    def __init__(self, surf, tower, groups):
         super().__init__(groups)
         self.istower_hitbox = True
         self.tower = tower
 
         pos = pygame.Vector2(pygame.mouse.get_pos())
-        self.rect = pygame.Rect(pos.x - TILE_SIZE, pos.y - TILE_SIZE, TILE_SIZE, TILE_SIZE)
-        self.color = (240, 240, 240)
-        self.image = pygame.Surface((self.rect.width, self.rect.height))
-        self.image.fill(self.color)
-        self.image.set_alpha(140)
+        self.image = surf
+        width, height = self.image.get_size()
+        self.image = pygame.transform.scale(self.image, (width * 2, height * 2))
+        self.rect = self.image.get_frect(center = tower.get_pos().center)
         self.hasToBeShown = True
-
     
     def update_pos(self):
         self.rect.center = self.tower.get_pos().center
-
-    def draw(self):
-        pygame.draw.rect(self.surface, self.color, self.rect)
     
     def update(self, dt):
         self.update_pos()
@@ -56,11 +54,10 @@ class TowerHead(pygame.sprite.Sprite):
         self.tower = tower
         self.istower_head = True
         
-        self.direction = pygame.Vector2()
+        self.direction = pygame.Vector2(-1, 0)
 
-    def get_direction(self):
-        mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-        new_direction = mouse_pos - pygame.Vector2(self.rect.center)
+    def set_direction(self, pos):
+        new_direction = pos - pygame.Vector2(self.rect.center)
         self.direction = new_direction.normalize() if new_direction.length() != 0 else self.direction
 
     def rotate(self):
@@ -76,11 +73,10 @@ class TowerHead(pygame.sprite.Sprite):
         self.rect.center = self.tower.get_head_pos()
 
     def update(self, dt):
-        self.get_direction()
-        if self.tower.get_state():
-            self.rotate()
-        else:
+        if not self.tower.get_state():
             self.update_pos()
+        else:
+            self.rotate()
 
 class TowerBottom(pygame.sprite.Sprite):
     def __init__(self, surf, grid, groups):
