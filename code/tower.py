@@ -12,6 +12,7 @@ class TowerRange(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(center = pos)
         self.tower = tower
         self.istower_range = True
+        self.hasToBeShown = True
     
     def update_pos(self):
         self.rect.center = self.tower.get_pos().center
@@ -31,6 +32,7 @@ class TowerHitbox(pygame.sprite.Sprite):
         self.image = pygame.Surface((self.rect.width, self.rect.height))
         self.image.fill(self.color)
         self.image.set_alpha(140)
+        self.hasToBeShown = True
 
     
     def update_pos(self):
@@ -78,7 +80,7 @@ class TowerHead(pygame.sprite.Sprite):
         else:
             self.update_pos()
 
-class Tower(pygame.sprite.Sprite):
+class TowerBottom(pygame.sprite.Sprite):
     def __init__(self, surf, grid, groups):
         super().__init__(groups)
         # status
