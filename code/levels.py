@@ -1,7 +1,7 @@
 from settings import *
 from map_tiles import *
 from sprites import Portal
-from groups import LevelSprites, TowerSprites
+from groups import LevelSprites, TowerSprites, EnemySprites
 from tower_types import Cannon
 from enemy import Enemy
 
@@ -14,6 +14,7 @@ class Level:
         self.level_sprites = LevelSprites()
         self.collison_sprites = pygame.sprite.Group()
         self.tower_sprites = TowerSprites()
+        self.enemy_sprites = EnemySprites()
 
         # tower grid
         self.tower_grid = [[]]
@@ -71,7 +72,7 @@ class Level:
         Portal(portal_surf, self.level_sprites)
 
         enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
-        Enemy(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)  
+        Enemy(enemy_surf, self.spawn_line, self.turn_lines, (self.level_sprites, self.enemy_sprites))  
 
     def run_the_level(self):
         dt = self.clock.tick() / 1000

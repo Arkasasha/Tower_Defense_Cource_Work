@@ -10,6 +10,8 @@ class TowerRange(pygame.sprite.Sprite):
         width, height = self.image.get_size()
         self.image = pygame.transform.scale(self.image, (width * 2, height * 2))
         self.rect = self.image.get_frect(center = pos)
+        self.mask = pygame.mask.from_surface(self.image)
+        # self.image = self.mask.to_surface()
         self.tower = tower
         self.istower_range = True
         self.hasToBeShown = True
@@ -134,8 +136,6 @@ class TowerBottom(pygame.sprite.Sprite):
         if pygame.mouse.get_just_pressed()[0]:
             if self.check_place():
                 self.reserve_place()
-                # self.tower_hitbox.kill()
-                # self.range.kill()
                     
     def update(self, dt):
         if not self.placed:

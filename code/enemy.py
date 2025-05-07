@@ -1,5 +1,6 @@
 from settings import *
 from numpy import sign
+from groups import EnemySprites
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, surf, spawn_line, turn_lines, groups):
@@ -21,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
         self.hitbox = pygame.FRect(self.rect)
         
         self.direction = pygame.Vector2(1, 0) # стартовое направление
-        self.speed = 500
+        self.speed = 50
 
         # set lines
         self.next_line = 0
@@ -31,10 +32,14 @@ class Enemy(pygame.sprite.Sprite):
         self.set_next_line_distance()
 
         self.turned_lines = set()  # отслеживание уже использованных линий
+        self.traveled_distance = 0
 
     def move(self, dt):
         # Движение
+        current_pos = pygame.Vector2(self.rect.center)
         self.rect.center += self.direction * self.speed * dt
+        new_pos = pygame.Vector2(self.rect.center)
+        self.traveled_distance += new_pos.distance_to(current_pos)
     
     def set_next_line_distance(self):
         turn_line_points = self.turn_lines[self.next_line].points
