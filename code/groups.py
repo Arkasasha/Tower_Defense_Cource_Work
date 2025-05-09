@@ -29,12 +29,15 @@ class LevelSprites(pygame.sprite.Group):
         tower_sprites = [sprite for sprite in self if hasattr(sprite, 'istower')]
         tower_heads = [sprite for sprite in self if hasattr(sprite, 'istower_head')]
         enemie_sprites = [sprite for sprite in self if hasattr(sprite, 'isenemie')]
-        for layer in [terrain_sprites, portal_sprites, range_sprites, hitbox_sprites, tower_sprites, tower_heads, enemie_sprites]:
+        projectile_sprites = [sprite for sprite in self if hasattr(sprite, 'isprojectile')]
+        for layer in [terrain_sprites, portal_sprites, range_sprites, hitbox_sprites, tower_sprites,
+                       tower_heads, enemie_sprites, projectile_sprites]:
             for sprite in layer:
                 if hasattr(sprite, "hasToBeShown"):
                     if not sprite.hasToBeShown:
                         continue
-                self._display_surface.blit(sprite.get_image(), (sprite.get_rect().topleft[0] + self._offset, sprite.get_rect().topleft[1] + self._offset))
+                self._display_surface.blit(sprite.get_image(), (sprite.get_rect().topleft[0] + self._offset, 
+                                                                sprite.get_rect().topleft[1] + self._offset))
 
 class TowerSprites(pygame.sprite.Group):
     def __init__(self):

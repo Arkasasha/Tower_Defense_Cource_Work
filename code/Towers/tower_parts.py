@@ -83,6 +83,9 @@ class TowerHead(pygame.sprite.Sprite):
     def get_rect(self):
         return self._rect
 
+    def get_direction(self):
+        return self._direction
+
     # setters
     def set_direction(self, pos):
         new_direction = pos - pygame.Vector2(self._rect.center)

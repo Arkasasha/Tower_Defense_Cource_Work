@@ -1,11 +1,12 @@
 from settings import *
 from Towers.tower_parts import TowerBottom, TowerHead, TowerRange, TowerHitbox
-from groups import EnemySprites
+from groups import LevelSprites, EnemySprites
+from Towers.tower_projectile_types import CannonProjectile
 
 class Tower(pygame.sprite.Sprite):
-    def __init__(self, *args, **kwargs):
-        super().__init__(args[0][1])    # passes TowerSprites group
-        self._setup(*args, **kwargs)
+    def __init__(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf):
+        super().__init__(groups[1])    # passes TowerSprites group
+        self._setup(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf)
         self._enemyTracked = None
 
         self._can_shoot = True
@@ -16,12 +17,12 @@ class Tower(pygame.sprite.Sprite):
         self._proj_id = 0
 
     def _setup(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf):
-        self.tower_base = TowerBottom(tower_base_surf, grid, groups[0])
-        self.tower_head = TowerHead(tower_head_surf, self.tower_base.get_rect().midtop, self.tower_base, groups[0])
-        self.tower_range = TowerRange(tower_range_surf, tower_range_mask, self.tower_base.get_rect().center, self.tower_base, groups[0])
-        self.tower_hitbox = TowerHitbox(tower_hitbox_surf, self.tower_base, groups[0])
+        self._tower_base = TowerBottom(tower_base_surf, grid, groups[0])
+        self._tower_head = TowerHead(tower_head_surf, self._tower_base.get_rect().midtop, self._tower_base, groups[0])
+        self._tower_range = TowerRange(tower_range_surf, tower_range_mask, self._tower_base.get_rect().center, self._tower_base, groups[0])
+        self._tower_hitbox = TowerHitbox(tower_hitbox_surf, self._tower_base, groups[0])
 
-        self.tower_base.set_hitbox(self.tower_hitbox)
+        self._tower_base.set_hitbox(self._tower_hitbox)
 
 
     @staticmethod
@@ -33,8 +34,8 @@ class Tower(pygame.sprite.Sprite):
 
 
     def _get_enemies_in_range(self):
-        mask = self.tower_range.get_mask()
-        mask_rect = self.tower_range.get_rect()
+        mask = self._tower_range.get_mask()
+        mask_rect = self._tower_range.get_rect()
         enemie_sprites = [sprite for sprite in EnemySprites()]
         collisions = []
         for sprite in enemie_sprites:
@@ -55,8 +56,8 @@ class Tower(pygame.sprite.Sprite):
             self._enemyTracked = furthest_enemy
 
     def _check_enemy_still_in_range(self):
-        mask = self.tower_range.get_mask()
-        mask_rect = self.tower_range.get_rect()
+        mask = self._tower_range.get_mask()
+        mask_rect = self._tower_range.get_rect()
         x = self._enemyTracked.get_rect().midbottom[0] - mask_rect.topleft[0]
         y = self._enemyTracked.get_rect().midbottom[1] - mask_rect.topleft[1]
         if self.check_point_in_mask(x, y, mask):
@@ -72,18 +73,18 @@ class Tower(pygame.sprite.Sprite):
 
     def _shoot_an_enemy(self):
         if self._can_shoot:
-            # write here the creation of projectile
+            CannonProjectile(self.get_projectile_pos(), self._enemyTracked, LevelSprites())
             self._can_shoot = False
             self._projectile_shoot_time = pygame.time.get_ticks()
 
     def _track_an_enemy(self):
         if self._check_enemy_still_in_range():
-            self.tower_head.set_direction(self._enemyTracked.get_rect().center)
+            self._tower_head.set_direction(self._enemyTracked.get_rect().center)
 
     def update(self, dt):
-        if self.tower_base.placed:
-            self.tower_range.hasToBeShown = False
-            self.tower_hitbox.hasToBeShown = False
+        if self._tower_base.placed:
+            self._tower_range.hasToBeShown = False
+            self._tower_hitbox.hasToBeShown = False
 
             if self._enemyTracked is not None:
                 self._track_an_enemy()
