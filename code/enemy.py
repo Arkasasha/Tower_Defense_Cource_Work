@@ -106,6 +106,12 @@ class Enemy(pygame.sprite.Sprite):
                 return True
             return False
 
+    def attack(self, target):
+        pass
+        # current_time = pygame.time.get_ticks() / 1000.0
+        # if current_time - self.last_attack_time >= self.attack_cooldown:
+        #     target.health -= self.damage
+        #     self.last_attack_time = current_time
 
     def update(self, dt):
         self._move(dt)
