@@ -8,22 +8,22 @@ from random import randint
 class Game:
     def __init__(self):
         pygame.init()
-        self.running = True
-        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self._running = True
+        self._display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Tower Defence')
 
-        self.setup()
+        self._setup()
 
-    def setup(self):
-        self.level = Level()
+    def _setup(self):
+        self._level = Level()
 
     def run_the_game(self):
-        while self.running:
+        while self._running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running = False
+                    self._running = False
 
-            self.level.run_the_level()
+            self._level.run_the_level()
 
         pygame.quit()
 

@@ -5,11 +5,16 @@ from sprites import Terrain
 class LevelSprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
-        self.display_surface = pygame.display.get_surface()
-        self.offset = 0
+        self._display_surface = pygame.display.get_surface()
+        self._offset = 0
     
+    # getters and setters
+    def get_offset(self):
+        return self._offset
+    
+
     def check_ground(self, tower_rect):
-        tiles = [tile for tile in self if tower_rect.colliderect(tile.rect)]
+        tiles = [tile for tile in self if tower_rect.colliderect(tile.get_rect())]
         for tile in tiles:
             if issubclass(type(tile), Terrain):
                 if not hasattr(tile, 'ground'):
@@ -29,16 +34,15 @@ class LevelSprites(pygame.sprite.Group):
                 if hasattr(sprite, "hasToBeShown"):
                     if not sprite.hasToBeShown:
                         continue
-                self.display_surface.blit(sprite.image, (sprite.rect.topleft[0] + self.offset, sprite.rect.topleft[1] + self.offset))
-
+                self._display_surface.blit(sprite.get_image(), (sprite.get_rect().topleft[0] + self._offset, sprite.get_rect().topleft[1] + self._offset))
 
 class TowerSprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
-        self.display_surface = pygame.display.get_surface()
+        self._display_surface = pygame.display.get_surface()
 
 @singleton
 class EnemySprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
-        self.display_surface = pygame.display.get_surface()
+        self._display_surface = pygame.display.get_surface()
