@@ -5,6 +5,7 @@ from groups import LevelSprites, TowerSprites
 from tower import Tower
 from tower_types import Cannon
 from enemy import Enemy
+from Enemies import *
 
 class Level:
     def __init__(self):
@@ -71,8 +72,25 @@ class Level:
         portal_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
         Portal(portal_surf, self.level_sprites)
 
-        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
-        Enemy(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)  
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'swordsman', 'movement', '0.png')).convert_alpha()
+        swordsman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
+
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'tankman', 'movement', '0.png')).convert_alpha()
+        tankman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
+
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'spearsman', 'movement', '0.png')).convert_alpha()
+        spearsman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
+
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'fish', 'movement', '0.png')).convert_alpha()
+        fish(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
+
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'flying_snake', 'movement', '00.png')).convert_alpha()
+        flying_snake(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
+
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'rogue', 'movement', '0.png')).convert_alpha()
+        rogue(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
+
+
 
     def run_the_level(self):
         dt = self.clock.tick() / 1000
