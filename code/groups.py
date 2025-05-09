@@ -5,11 +5,16 @@ from sprites import Terrain
 class LevelSprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
-        self.display_surface = pygame.display.get_surface()
-        self.offset = 0
+        self._display_surface = pygame.display.get_surface()
+        self._offset = 0
     
+    # getters and setters
+    def get_offset(self):
+        return self._offset
+    
+
     def check_ground(self, tower_rect):
-        tiles = [tile for tile in self if tower_rect.colliderect(tile.rect)]
+        tiles = [tile for tile in self if tower_rect.colliderect(tile.get_rect())]
         for tile in tiles:
             if issubclass(type(tile), Terrain):
                 if not hasattr(tile, 'ground'):
@@ -24,11 +29,23 @@ class LevelSprites(pygame.sprite.Group):
         tower_sprites = [sprite for sprite in self if hasattr(sprite, 'istower')]
         tower_heads = [sprite for sprite in self if hasattr(sprite, 'istower_head')]
         enemie_sprites = [sprite for sprite in self if hasattr(sprite, 'isenemie')]
-        for layer in [terrain_sprites, portal_sprites, range_sprites, hitbox_sprites, tower_sprites, tower_heads, enemie_sprites]:
+        projectile_sprites = [sprite for sprite in self if hasattr(sprite, 'isprojectile')]
+        for layer in [terrain_sprites, portal_sprites, range_sprites, hitbox_sprites, tower_sprites,
+                       tower_heads, enemie_sprites, projectile_sprites]:
             for sprite in layer:
-                self.display_surface.blit(sprite.image, (sprite.rect.topleft[0] + self.offset, sprite.rect.topleft[1] + self.offset))
+                if hasattr(sprite, "hasToBeShown"):
+                    if not sprite.hasToBeShown:
+                        continue
+                self._display_surface.blit(sprite.get_image(), (sprite.get_rect().topleft[0] + self._offset, 
+                                                                sprite.get_rect().topleft[1] + self._offset))
 
 class TowerSprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
-        self.display_surface = pygame.display.get_surface()
+        self._display_surface = pygame.display.get_surface()
+
+@singleton
+class EnemySprites(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()
+        self._display_surface = pygame.display.get_surface()

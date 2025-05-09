@@ -42,6 +42,16 @@ class Spawn_line():
 
 class Turn_lines():
     def __init__(self, polygon_points, name, type):
-        self.points = polygon_points
-        self.name = name
-        self.type = type
+        self._points = polygon_points
+        self._name = name
+        self._type = type
+    
+    # getters
+    def get_name(self):
+        return self._name
+
+    def get_points(self):
+        return self._points
+
+    def get_type(self):
+        return self._type
