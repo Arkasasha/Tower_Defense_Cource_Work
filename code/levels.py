@@ -4,7 +4,7 @@ from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites
 from Towers.tower_types import Cannon
 from enemy import Enemy
-from Enemies import *
+from enemies import *
 
 class Level:
     def __init__(self):
@@ -61,7 +61,7 @@ class Level:
             if obj.name == "Spawn":
                 self._spawn_line = [(p[0], p[1]) for p in obj.points]
                 
-            elif obj.type in ("1", "2"): 
+            elif obj.type in ("1", "2", "3"): 
                 polygon_points = [(p[0], p[1]) for p in obj.points]
                 turn_line = Turn_lines(polygon_points, obj.name, obj.type)
                 self._turn_lines.append(turn_line)
@@ -91,7 +91,7 @@ class Level:
         # rogue(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
 
     def run_the_level(self):
-        dt = self.clock.tick() / 1000
+        dt = self._clock.tick() / 1000
         enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
         
         keys = pygame.key.get_just_pressed()
@@ -106,11 +106,11 @@ class Level:
         self._display_surface.fill('#A020F0')
         self._level_sprites.draw()
         
-        # Проверка линий
-        for polygon in self._turn_lines:
-            pygame.draw.polygon(self._display_surface, 'red', polygon.get_points(), 2)
-        # Отладка: рисуем линию спавна
-        pygame.draw.polygon(self._display_surface, 'blue', self._spawn_line, 2)
+        # # Проверка линий
+        # for polygon in self._turn_lines:
+        #     pygame.draw.polygon(self._display_surface, 'red', polygon.get_points(), 2)
+        # # Отладка: рисуем линию спавна
+        # pygame.draw.polygon(self._display_surface, 'blue', self._spawn_line, 2)
 
         pygame.display.flip()
 
