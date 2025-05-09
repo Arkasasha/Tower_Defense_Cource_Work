@@ -4,7 +4,8 @@ from enemy import Enemy
 class swordsman(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'normal'
         self.speed = 20
         self.health = 100
         self.damage = 10
@@ -17,7 +18,8 @@ class swordsman(Enemy):
 class tankman(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'normal'
         self.speed = 15
         self.health = 160
         self.damage = 20
@@ -30,7 +32,8 @@ class tankman(Enemy):
 class rogue(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'normal'
         self.speed = 35
         self.health = 80
         self.damage = 8
@@ -43,7 +46,8 @@ class rogue(Enemy):
 class spearsman(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'normal'
         self.speed = 15
         self.health = 120
         self.damage = 12
@@ -56,7 +60,8 @@ class spearsman(Enemy):
 class fish(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'blue'
         self.speed = 25
         self.health = 90
         self.damage = 7
@@ -69,7 +74,8 @@ class fish(Enemy):
 class flying_snake(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'air'
+        self.movement_type = 'air'
+        self.attripute = 'green'
         self.speed = 15
         self.health = 200
         self.damage = 24
@@ -82,7 +88,8 @@ class flying_snake(Enemy):
 class golem(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'yellow'
         self.speed = 10
         self.health = 450
         self.damage = 60
@@ -95,7 +102,8 @@ class golem(Enemy):
 class bimba(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'red'
         self.speed = 50
         self.health = 45
         #self.damage = 100   
@@ -108,7 +116,8 @@ class bimba(Enemy):
 class red_elemental(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'air'
+        self.movement_type = 'air'
+        self.attripute = 'red'
         self.speed = 15
         self.health = 160
         self.damage = 22
@@ -121,7 +130,8 @@ class red_elemental(Enemy):
 class blue_elemental(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'air'
+        self.movement_type = 'air'
+        self.attripute = 'blue'
         self.speed = 15
         self.health = 160
         self.damage = 22
@@ -134,7 +144,8 @@ class blue_elemental(Enemy):
 class green_elemental(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'air'
+        self.movement_type = 'air'
+        self.attripute = 'green'
         self.speed = 15
         self.health = 160
         self.damage = 22
@@ -147,7 +158,8 @@ class green_elemental(Enemy):
 class yellow_elemental(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'air'
+        self.movement_type = 'air'
+        self.attripute = 'yellow'
         self.speed = 15
         self.health = 160
         self.damage = 22
@@ -160,7 +172,8 @@ class yellow_elemental(Enemy):
 class red_slime(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'red'
         self.speed = 25
         self.health = 70
         self.damage = 6
@@ -173,7 +186,8 @@ class red_slime(Enemy):
 class blue_slime(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'blue'
         self.speed = 25
         self.health = 70
         self.damage = 6
@@ -186,7 +200,8 @@ class blue_slime(Enemy):
 class Loki(Enemy):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'normal'
         self.speed = 35
         self.health = 160
         self.damage = 24
@@ -196,23 +211,25 @@ class Loki(Enemy):
         self.attack_maintower = 3
 
 
-class ghost(Enemy):
+class ghost(Enemy):                                                # It is invisible for the towers, can be killed only by splash
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'normal'
         self.speed = 30
         self.health = 80
         #self.damage = 0
         #self.attack_cooldown = 1.0
         #self.last_attack_time = 0.0
-        self.attack_range = 50
+        #self.attack_range = 50
         self.attack_maintower = 1
 
 
-class wizard(Enemy):
+class wizard(Enemy):                                               # Can attack towers, from the far distance
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(surf, spawn_line, turn_lines, groups)
-        self.type = 'ground'
+        self.movement_type = 'ground'
+        self.attripute = 'normal'
         self.speed = 15
         self.health = 70
         self.damage = 15
@@ -221,3 +238,16 @@ class wizard(Enemy):
         self.attack_range = 50
         self.attack_maintower = 1
 
+
+class BOSS(Enemy):
+    def __init__(self, surf, spawn_line, turn_lines, groups):
+        super().__init__(surf, spawn_line, turn_lines, groups)
+        self.movement_type = 'ground'
+        self.attripute = 'normal'
+        self.speed = 10
+        self.health = 1000
+        self.damage = 50
+        self.attack_cooldown = 2.0
+        self.last_attack_time = 0.0
+        self.attack_range = 50
+        self.attack_maintower = 3
