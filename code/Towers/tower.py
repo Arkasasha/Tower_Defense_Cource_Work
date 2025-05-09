@@ -1,11 +1,28 @@
 from settings import *
-from tower import TowerBottom, TowerHead, TowerRange, TowerHitbox
+from Towers.tower_parts import TowerBottom, TowerHead, TowerRange, TowerHitbox
 from groups import EnemySprites
 
 class Tower(pygame.sprite.Sprite):
-    def __init__(self, groups):
-        super().__init__(groups)
+    def __init__(self, *args, **kwargs):
+        super().__init__(args[0][1])    # passes TowerSprites group
+        self._setup(*args, **kwargs)
         self._enemyTracked = None
+
+        self._can_shoot = True
+        self._projectile_shoot_time = 0
+        self._cooldown_time = 300
+        self._projectiles = []
+
+        self._proj_id = 0
+
+    def _setup(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf):
+        self.tower_base = TowerBottom(tower_base_surf, grid, groups[0])
+        self.tower_head = TowerHead(tower_head_surf, self.tower_base.get_rect().midtop, self.tower_base, groups[0])
+        self.tower_range = TowerRange(tower_range_surf, tower_range_mask, self.tower_base.get_rect().center, self.tower_base, groups[0])
+        self.tower_hitbox = TowerHitbox(tower_hitbox_surf, self.tower_base, groups[0])
+
+        self.tower_base.set_hitbox(self.tower_hitbox)
+
 
     @staticmethod
     def check_point_in_mask(x, y, mask):
@@ -13,6 +30,7 @@ class Tower(pygame.sprite.Sprite):
                 if mask.get_at((x, y)) == 1:
                     return True
         return False
+
 
     def _get_enemies_in_range(self):
         mask = self.tower_range.get_mask()
@@ -46,6 +64,18 @@ class Tower(pygame.sprite.Sprite):
         self._enemyTracked = None
         return False
 
+    def _shooting_timer(self):
+        if not self._can_shoot:
+            current_time = pygame.time.get_ticks()
+            if current_time - self._projectile_shoot_time >= self._cooldown_time:
+                self._can_shoot = True
+
+    def _shoot_an_enemy(self):
+        if self._can_shoot:
+            # write here the creation of projectile
+            self._can_shoot = False
+            self._projectile_shoot_time = pygame.time.get_ticks()
+
     def _track_an_enemy(self):
         if self._check_enemy_still_in_range():
             self.tower_head.set_direction(self._enemyTracked.get_rect().center)
@@ -57,21 +87,9 @@ class Tower(pygame.sprite.Sprite):
 
             if self._enemyTracked is not None:
                 self._track_an_enemy()
+                self._shoot_an_enemy()
             else:
                 self._wait_for_enemy()
+            
+            self._shooting_timer()
 
-class Cannon(Tower):
-    def __init__(self, grid, groups):
-        super().__init__(groups[1])
-        tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
-        tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'cannon', 'tower', '0.png')).convert_alpha()
-        tower_range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'surface.png')).convert_alpha()
-        tower_range_mask = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'mask.png')).convert_alpha()
-        tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '1x1', 'surface.png')).convert_alpha()
-
-        self.tower_base = TowerBottom(tower_base_surf, grid, groups[0])
-        self.tower_head = TowerHead(tower_head_surf, self.tower_base.get_rect().midtop, self.tower_base, groups[0])
-        self.tower_range = TowerRange(tower_range_surf, tower_range_mask, self.tower_base.get_rect().center, self.tower_base, groups[0])
-        self.tower_hitbox = TowerHitbox(tower_hitbox_surf, self.tower_base, groups[0])
-
-        self.tower_base.set_hitbox(self.tower_hitbox)

@@ -22,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
         self._hitbox = pygame.FRect(self._rect)
         
         self._direction = pygame.Vector2(1, 0) # стартовое направление
-        self._speed = 200
+        self._speed = 100
 
         # set lines
         self._next_line = 0

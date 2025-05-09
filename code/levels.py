@@ -2,7 +2,7 @@ from settings import *
 from map_tiles import *
 from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites
-from tower_types import Cannon
+from Towers.tower_types import Cannon
 from enemy import Enemy
 
 class Level:
