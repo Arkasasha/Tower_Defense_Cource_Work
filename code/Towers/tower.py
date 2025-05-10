@@ -2,7 +2,6 @@ from settings import *
 from Towers.tower_parts import TowerBottom, TowerHead, TowerRange, TowerHitbox
 from groups import LevelSprites, EnemySprites
 from Towers.tower_projectile_types import CannonProjectile
-from enemy import Enemy
 
 class Tower(pygame.sprite.Sprite):
     def __init__(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf):
@@ -57,12 +56,13 @@ class Tower(pygame.sprite.Sprite):
             self._enemyTracked = furthest_enemy
 
     def _check_enemy_still_in_range(self):
-        mask = self._tower_range.get_mask()
-        mask_rect = self._tower_range.get_rect()
-        x = self._enemyTracked.get_rect().midbottom[0] - mask_rect.topleft[0]
-        y = self._enemyTracked.get_rect().midbottom[1] - mask_rect.topleft[1]
-        if self.check_point_in_mask(x, y, mask):
-            return True
+        if not self._enemyTracked._is_dead():
+            mask = self._tower_range.get_mask()
+            mask_rect = self._tower_range.get_rect()
+            x = self._enemyTracked.get_rect().midbottom[0] - mask_rect.topleft[0]
+            y = self._enemyTracked.get_rect().midbottom[1] - mask_rect.topleft[1]
+            if self.check_point_in_mask(x, y, mask):
+                return True
         self._enemyTracked = None
         return False
 
@@ -74,22 +74,22 @@ class Tower(pygame.sprite.Sprite):
 
     def _shoot_an_enemy(self):
         if self._can_shoot:
-            CannonProjectile(self.get_projectile_pos(), self._enemyTracked, LevelSprites())
+            self._create_projectile()
             self._can_shoot = False
             self._projectile_shoot_time = pygame.time.get_ticks()
 
     def _track_an_enemy(self):
-        if self._check_enemy_still_in_range():
-            self._tower_head.set_direction(self._enemyTracked.get_rect().center)
+        self._tower_head.set_direction(self._enemyTracked.get_rect().center)
 
     def update(self, dt):
         if self._tower_base.placed:
             self._tower_range.hasToBeShown = False
             self._tower_hitbox.hasToBeShown = False
 
-            if self._enemyTracked is not None and self._enemyTracked.is_died() == False:
-                self._track_an_enemy()
-                self._shoot_an_enemy()
+            if self._enemyTracked is not None:
+                if self._check_enemy_still_in_range():
+                    self._track_an_enemy()
+                    self._shoot_an_enemy()
             else:
                 self._wait_for_enemy()
             

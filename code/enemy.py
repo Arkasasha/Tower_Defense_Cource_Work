@@ -26,7 +26,6 @@ class Enemy(pygame.sprite.Sprite):
         self._health = 100
         self._is_dead = False
 
-
         # set lines
         self._next_line = 0
         self._turn_lines = turn_lines
@@ -133,6 +132,8 @@ class Enemy(pygame.sprite.Sprite):
         if self._check_turn():
             if self._next_line + 1 == len(self._turn_lines):
                 self.kill()
+                self._is_dead = True
+                del self
             else:
                 self._make_a_turn()
             
