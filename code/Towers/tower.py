@@ -56,7 +56,7 @@ class Tower(pygame.sprite.Sprite):
             self._enemyTracked = furthest_enemy
 
     def _check_enemy_still_in_range(self):
-        if not self._enemyTracked._is_dead():
+        if not self._enemyTracked.is_died():
             mask = self._tower_range.get_mask()
             mask_rect = self._tower_range.get_rect()
             x = self._enemyTracked.get_rect().midbottom[0] - mask_rect.topleft[0]

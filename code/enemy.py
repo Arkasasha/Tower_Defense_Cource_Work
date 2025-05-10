@@ -55,8 +55,7 @@ class Enemy(pygame.sprite.Sprite):
         if self._health <= 0:
             self.kill()
             self._is_dead = True
-            print("Enemy is dead")
-        print(self._health)
+            del self
 
     def _move(self, dt):
         # Движение
