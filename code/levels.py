@@ -4,7 +4,7 @@ from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites
 from Towers.tower_types import Cannon
 from enemy import Enemy
-from Enemies import *
+from enemies_types import *
 
 class Level:
     def __init__(self):
