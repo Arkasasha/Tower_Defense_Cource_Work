@@ -163,8 +163,8 @@
   <object id="24" name="28" type="1" x="64" y="640">
    <polyline points="0,0 64,-64"/>
   </object>
-  <object id="38" name="Spawn" x="64.1212" y="106.424">
-   <polyline points="0,0 0.181818,44.3637"/>
+  <object id="38" name="Spawn" x="64.1212" y="111.674">
+   <polyline points="0,0 0.181818,38.7387"/>
   </object>
   <object id="40" name="30" type="3" x="224" y="544">
    <polyline points="0,0 64,0"/>

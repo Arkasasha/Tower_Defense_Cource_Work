@@ -1,6 +1,7 @@
 from settings import *
 from math import atan2, degrees
 from numpy import sign, pi
+from enemy import Enemy
 
 class TowerProjectile(pygame.sprite.Sprite):
     def __init__(self, surf, pos, enemy, groups, scale):
@@ -51,4 +52,5 @@ class TowerProjectile(pygame.sprite.Sprite):
         self._rotate()
         self._move(dt)
         if self._check_if_reached_enemy():
+            self._enemy.deal_damage(40)
             self.kill()
