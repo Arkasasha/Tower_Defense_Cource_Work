@@ -6,6 +6,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, surf, spawn_line, turn_lines, groups):
         super().__init__(groups)
         self.isenemie = True
+        self._isDead = False
         
         start_points, end_points = spawn_line[0], spawn_line[1]
 
@@ -44,6 +45,8 @@ class Enemy(pygame.sprite.Sprite):
     def get_traveled_distance(self):
         return self._traveled_distance
 
+    def get_death_state(self):
+        return self._isDead
 
     def _move(self, dt):
         # Движение
@@ -118,6 +121,8 @@ class Enemy(pygame.sprite.Sprite):
         if self._check_turn():
             if self._next_line + 1 == len(self._turn_lines):
                 self.kill()
+                self._isDead = True
+                del self
             else:
                 self._make_a_turn()
             

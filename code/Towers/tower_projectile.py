@@ -3,18 +3,17 @@ from math import atan2, degrees
 from numpy import sign, pi
 
 class TowerProjectile(pygame.sprite.Sprite):
-    def __init__(self, surf, pos, enemy, groups, scale):
+    def __init__(self, surf, pos, enemy, damage, groups):
         super().__init__(groups)
 
         self._image = surf
-        width, height = self._image.get_size()
-        self._image = pygame.transform.smoothscale(self._image, (width * scale[0], height * scale[1]))
         self._original_image = self._image
         self._rect = self._image.get_frect(center = pos)
 
-        self._speed = 400
+        self._speed = 150
         self._direction = None
         
+        self._damage = damage
         self._enemy = enemy
         self.isprojectile = True
 
