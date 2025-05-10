@@ -2,6 +2,7 @@ from settings import *
 from Towers.tower_parts import TowerBottom, TowerHead, TowerRange, TowerHitbox
 from groups import LevelSprites, EnemySprites
 from Towers.tower_projectile_types import CannonProjectile
+from enemy import Enemy
 
 class Tower(pygame.sprite.Sprite):
     def __init__(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf):
@@ -86,7 +87,7 @@ class Tower(pygame.sprite.Sprite):
             self._tower_range.hasToBeShown = False
             self._tower_hitbox.hasToBeShown = False
 
-            if self._enemyTracked is not None:
+            if self._enemyTracked is not None and self._enemyTracked.is_died() == False:
                 self._track_an_enemy()
                 self._shoot_an_enemy()
             else:

@@ -4,7 +4,7 @@ from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites
 from Towers.tower_types import Cannon
 from enemy import Enemy
-from enemies import *
+from enemies_types import *
 
 class Level:
     def __init__(self):
@@ -92,13 +92,13 @@ class Level:
 
     def run_the_level(self):
         dt = self._clock.tick() / 1000
-        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'bimba', 'movement', '0.png')).convert_alpha()
+        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'swordsman', 'movement', '0.png')).convert_alpha()
         
         keys = pygame.key.get_just_pressed()
         if keys[pygame.K_o]:
             Cannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
         if keys[pygame.K_p]:
-            Enemy(enemy_surf, self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
+            swordsman(enemy_surf, self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
 
         self._level_sprites.update(dt)
         self._tower_sprites.update(dt)

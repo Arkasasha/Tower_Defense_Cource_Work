@@ -23,6 +23,9 @@ class Enemy(pygame.sprite.Sprite):
         
         self._direction = pygame.Vector2(1, 0) # стартовое направление
         self._speed = 100
+        self._health = 100
+        self._is_dead = False
+
 
         # set lines
         self._next_line = 0
@@ -43,7 +46,18 @@ class Enemy(pygame.sprite.Sprite):
 
     def get_traveled_distance(self):
         return self._traveled_distance
-
+    
+    def is_died(self):
+        return self._is_dead
+    
+    # functions
+    def deal_damage(self, damage):
+        self._health -= damage
+        if self._health <= 0:
+            self.kill()
+            self._is_dead = True
+            print("Enemy is dead")
+        print(self._health)
 
     def _move(self, dt):
         # Движение
@@ -112,6 +126,7 @@ class Enemy(pygame.sprite.Sprite):
         # if current_time - self.last_attack_time >= self.attack_cooldown:
         #     target.health -= self.damage
         #     self.last_attack_time = current_time
+
 
     def update(self, dt):
         self._move(dt)
