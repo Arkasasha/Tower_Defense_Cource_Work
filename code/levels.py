@@ -3,7 +3,6 @@ from map_tiles import *
 from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites
 from Towers.tower_types import Cannon
-from enemy import Enemy
 from enemies_types import *
 
 class Level:
@@ -72,23 +71,6 @@ class Level:
         portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
         Portal(portal_surf, self._level_sprites)
 
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'swordsman', 'movement', '0.png')).convert_alpha()
-        # swordsman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'tankman', 'movement', '0.png')).convert_alpha()
-        # tankman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'spearsman', 'movement', '0.png')).convert_alpha()
-        # spearsman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'fish', 'movement', '0.png')).convert_alpha()
-        # fish(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'flying_snake', 'movement', '00.png')).convert_alpha()
-        # flying_snake(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'rogue', 'movement', '0.png')).convert_alpha()
-        # rogue(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
 
     def run_the_level(self):
         dt = self._clock.tick() / 1000
@@ -98,6 +80,27 @@ class Level:
             Cannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
         if keys[pygame.K_p]:
             swordsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
+        if keys[pygame.K_1]:
+            tankman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_2]:
+            spearsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_3]:
+            fish(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_4]:
+            flying_snake(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_5]:
+            rogue(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_6]:
+            red_elemental(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_7]:
+            blue_slime(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_8]:
+            golem(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_9]:
+            ghost(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_0]:
+            bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+
 
         self._level_sprites.update(dt)
         self._tower_sprites.update(dt)
