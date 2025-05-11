@@ -32,7 +32,7 @@ class LevelSprites(pygame.sprite.Group):
         projectile_sprites = [sprite for sprite in self if hasattr(sprite, 'isprojectile')]
         for layer in [terrain_sprites, portal_sprites, range_sprites, hitbox_sprites, tower_sprites,
                        tower_heads, enemie_sprites, projectile_sprites]:
-            for sprite in layer:
+            for sprite in sorted(layer, key = lambda sprite: sprite.get_rect().centery):
                 if hasattr(sprite, "hasToBeShown"):
                     if not sprite.hasToBeShown:
                         continue
