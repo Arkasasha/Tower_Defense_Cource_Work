@@ -92,13 +92,12 @@ class Level:
 
     def run_the_level(self):
         dt = self._clock.tick() / 1000
-        enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'swordsman', 'movement', '0.png')).convert_alpha()
-        
+  
         keys = pygame.key.get_just_pressed()
         if keys[pygame.K_o]:
             Cannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
         if keys[pygame.K_p]:
-            swordsman(enemy_surf, self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
+            swordsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
 
         self._level_sprites.update(dt)
         self._tower_sprites.update(dt)

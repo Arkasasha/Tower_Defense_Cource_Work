@@ -128,6 +128,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self, dt):
         self._move(dt)
+        self._animate(dt)
         if self._check_turn():
             if self._next_line + 1 == len(self._turn_lines):
                 self.kill()
