@@ -125,8 +125,8 @@ class Enemy(pygame.sprite.Sprite):
                 for file_name in sorted(file_names, key = lambda name: int(name.split('.')[0])):
                     full_path = join(foldfer_path, file_name)
                     surf = pygame.image.load(full_path).convert_alpha()
-                    # width, height = surf.get_size()
-                    # surf = pygame.transform.scale(surf, (width * 1.1, height))
+                    width, height = surf.get_size()
+                    surf = pygame.transform.scale(surf, (width * 1.5, height * 1.5))
                     self._frames.append(surf)
         print (self._frames)
 
