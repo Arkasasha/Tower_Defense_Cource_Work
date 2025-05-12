@@ -43,6 +43,27 @@ class Tower(pygame.sprite.Sprite):
                     return True
         return False
 
+    def get_projectile_pos(self):
+        pos = self._tower_head.get_rect().center
+        if self._tower_head.get_direction().x >= 0:
+            angle_1 = self._tower_head.get_direction().angle_to(pygame.math.Vector2(0, 1))
+            upd_offset_dir = pygame.math.Vector2((self._projectile_offset_direction.x * -1, self._projectile_offset_direction.y))
+            angle_2 = upd_offset_dir.angle_to(pygame.math.Vector2(0, 1))
+            rotation_angle = 360 - (angle_1 - angle_2)
+            rotation_angle = 360 - rotation_angle if rotation_angle < 0 else rotation_angle
+            project_direct = pygame.math.Vector2(1, 0).rotate(rotation_angle)
+            pos += self._projectile_offset_distance * project_direct
+            return pos
+        else:
+            print(self._tower_head.get_direction())
+            angle_1 = self._tower_head.get_direction().angle_to(pygame.math.Vector2(0, 1))
+            angle_2 = self._projectile_offset_direction.angle_to(pygame.math.Vector2(-1, 0))
+            angle_1 = -(360 - angle_1) if angle_1 > 0 else angle_1
+            angle_2 = -angle_2 if angle_2 > 0 else angle_2
+            rotation_angle = -(angle_1 + angle_2)
+            project_direct = pygame.math.Vector2(0, 1).rotate(rotation_angle)
+            pos += self._projectile_offset_distance * project_direct
+            return pos
 
     def _get_enemies_in_range(self):
         mask = self._tower_range.get_mask()
@@ -65,6 +86,7 @@ class Tower(pygame.sprite.Sprite):
                                                 furthest_enemy.get_traveled_distance()):
                     furthest_enemy = enemy
             self._enemyTracked = furthest_enemy
+
 
     def _check_enemy_still_in_range(self):
         if not self._enemyTracked.is_died():

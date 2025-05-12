@@ -12,7 +12,7 @@ class CannonProjectile(TowerProjectile):
 
     def _stats_setup(self):
         # Stats
-        self._speed = 400
+        self._speed = 100
         self._splash = None
 
 class MegaCannonProjectile(TowerProjectile):

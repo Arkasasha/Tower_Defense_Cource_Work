@@ -12,6 +12,8 @@ class Cannon(Tower):
         tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '1x1', 'surface.png')).convert_alpha()
         super().__init__(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf)
 
+        self._projectile_offset_direction = pygame.Vector2(-8, 2).normalize()
+        self._projectile_offset_distance = 6
         self._setup_stats()
 
     def _setup_stats(self):
@@ -21,14 +23,6 @@ class Cannon(Tower):
     
     def _create_projectile(self):
         CannonProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
-
-    def get_projectile_pos(self):
-        x = self._tower_head.get_rect().centerx
-        y = self._tower_head.get_rect().centery
-        if self._tower_head.get_direction().x >= 0:
-            return (x + 4, y - 7.5)
-        if self._tower_head.get_direction().x < 0:
-            return (x - 4, y - 7.5)
 
 class MegaCannon(Tower):
     def __init__(self, grid, groups):
@@ -41,6 +35,8 @@ class MegaCannon(Tower):
         tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '1x1', 'surface.png')).convert_alpha()
         super().__init__(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf)
 
+        self._projectile_offset_direction = pygame.Vector2(-9, 4).normalize()
+        self._projectile_offset_distance = 6
         self._setup_stats()
 
     def _setup_stats(self):
@@ -50,14 +46,6 @@ class MegaCannon(Tower):
     
     def _create_projectile(self):
         MegaCannonProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
-    
-    def get_projectile_pos(self):
-        x = self._tower_head.get_rect().centerx
-        y = self._tower_head.get_rect().centery
-        if self._tower_head.get_direction().x >= 0:
-            return (x + 4, y - 7.5)
-        if self._tower_head.get_direction().x < 0:
-            return (x - 4, y - 7.5)
 
 class ReactiveCannon(Tower):
     def __init__(self, grid, groups):
@@ -280,7 +268,7 @@ class MegaXBow(Tower):
 
     def _setup_stats(self):
         # Stats
-        self._cooldown_time = 300
+        self._cooldown_time = 1000
         self._damage = 100
     
     def _create_projectile(self):

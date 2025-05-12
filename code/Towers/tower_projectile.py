@@ -40,7 +40,7 @@ class TowerProjectile(pygame.sprite.Sprite):
             self._image = pygame.transform.flip(self._image, False, True)
         else:
             self._image = pygame.transform.rotozoom(self._original_image, angle, 1)
-        # self._rect = self._image.get_frect(center = self._tower.get_head_pos())
+        self._rect = self._image.get_frect(center = self._rect.center)
 
     def _check_if_reached_enemy(self):
         offset = (self._enemy.get_rect().left - self._rect.left, 

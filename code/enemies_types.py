@@ -13,7 +13,7 @@ class swordsman(Enemy):
     def _stats_setup(self):
         self._movement_type = 'ground'
         self._attripute = 'normal'
-        self._speed = 50
+        self._speed = 25
         self._health = 100
         self._damage = 10
         self._attack_cooldown = 1.0
@@ -31,14 +31,13 @@ class swordsman(Enemy):
                     # width, height = surf.get_size()
                     # surf = pygame.transform.scale(surf, (width * 1.1, height))
                     self._frames.append(surf)
-        print (self._frames)
 
     def _animate(self, dt):
-        
         self._frame_index = self._frame_index + 5 * dt
         self._image = self._frames[int(self._frame_index) % len(self._frames)]
         if self._direction.x < 0:
             self._image = pygame.transform.flip(self._image, True, False)
+        self._mask = pygame.mask.from_surface(self._image)
 
 
 class tankman(Enemy):
