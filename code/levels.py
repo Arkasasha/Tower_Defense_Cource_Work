@@ -79,7 +79,7 @@ class Level:
         if keys[pygame.K_o]:
             Cannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
         if keys[pygame.K_p]:
-            swordsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
+            Loki(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
         if keys[pygame.K_1]:
             tankman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         if keys[pygame.K_2]:

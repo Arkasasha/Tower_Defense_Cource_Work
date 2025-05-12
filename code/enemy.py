@@ -24,6 +24,7 @@ class Enemy(pygame.sprite.Sprite):
         self._direction = pygame.Vector2(1, 0) # стартовое направление
         self._speed = 10
         self._health = 100
+        self._elementatr = 'normal' # элемент врага
         self._is_dead = False
         
         # set lines
@@ -50,7 +51,35 @@ class Enemy(pygame.sprite.Sprite):
         return self._is_dead
     
     # functions
-    def deal_damage(self, damage):
+    def deal_damage(self, damage, damage_type):
+        if self._elementatr == 'normal' and damage_type == 'normal':
+            damage = damage * 1.0
+        elif self._elementatr == 'normal' and damage_type != 'normal':
+            damage = damage * 0.7
+        elif self._elementatr != 'normal' and damage_type == 'normal':
+            damage = damage * 0.7
+
+        elif (self._elementatr == 'red' and damage_type == 'green') or (
+            self._elementatr == 'blue' and damage_type == 'red') or (
+            self._elementatr == 'yellow' and damage_type == 'blue') or (
+            self._elementatr == 'green' and damage_type == 'yellow'):
+                damage = damage * 1.5
+        elif (self._elementatr == 'red' and damage_type == 'blue') or (
+            self._elementatr == 'blue' and damage_type == 'yellow') or (
+            self._elementatr == 'yellow' and damage_type == 'green') or (
+            self._elementatr == 'green' and damage_type == 'red'):
+                damage = damage * 0.5
+        elif (self._elementatr == 'red' and damage_type == 'red') or (
+            self._elementatr == 'blue' and damage_type == 'blue') or (
+            self._elementatr == 'yellow' and damage_type == 'yellow') or (
+            self._elementatr == 'green' and damage_type == 'green'):
+                damage = damage * 0.8
+        elif (self._elementatr == 'red' and damage_type == 'yellow') or (
+            self._elementatr == 'blue' and damage_type == 'green') or (
+            self._elementatr == 'yellow' and damage_type == 'red') or (
+            self._elementatr == 'green' and damage_type == 'blue'):
+                damage = damage * 1.0
+
         self._health -= damage
         if self._health <= 0:
             self.kill()
@@ -118,7 +147,7 @@ class Enemy(pygame.sprite.Sprite):
                 return True
             return False
     
-    def _load_images(self, enemy_type):
+    def _load_images(self, enemy_type, scale):
         self._frames = []
         for foldfer_path, sub_folders, file_names in walk(join('Game', 'Assets', 'Enemies', enemy_type, 'movement')):
             if file_names:
@@ -126,7 +155,7 @@ class Enemy(pygame.sprite.Sprite):
                     full_path = join(foldfer_path, file_name)
                     surf = pygame.image.load(full_path).convert_alpha()
                     width, height = surf.get_size()
-                    surf = pygame.transform.scale(surf, (width * 1.5, height * 1.5))
+                    surf = pygame.transform.scale(surf, (width * scale, height * scale))
                     self._frames.append(surf)
         print (self._frames)
 

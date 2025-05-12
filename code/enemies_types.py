@@ -4,7 +4,7 @@ from enemy import Enemy
 class swordsman(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('swordsman')
+        self._load_images('swordsman', 1.3)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -12,8 +12,8 @@ class swordsman(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'normal'
-        self._speed = 50
+        self._elementatr = 'normal'
+        self._speed = 20
         self._health = 100
         self._damage = 10
         self._attack_cooldown = 1.0
@@ -25,7 +25,7 @@ class swordsman(Enemy):
 class tankman(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('tankman')
+        self._load_images('tankman', 1.4)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -33,7 +33,7 @@ class tankman(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'normal'
+        self._elementatr = 'normal'
         self._speed = 15
         self._health = 160
         self._damage = 20
@@ -46,7 +46,7 @@ class tankman(Enemy):
 class rogue(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('rogue')
+        self._load_images('rogue', 1.3)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -54,7 +54,7 @@ class rogue(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'normal'
+        self._elementatr = 'normal'
         self._speed = 35
         self._health = 80
         self._damage = 8
@@ -67,7 +67,7 @@ class rogue(Enemy):
 class spearsman(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('spearsman')
+        self._load_images('spearsman', 1.4)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -75,7 +75,7 @@ class spearsman(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'normal'
+        self._elementatr = 'normal'
         self._speed = 15
         self._health = 120
         self._damage = 12
@@ -88,7 +88,7 @@ class spearsman(Enemy):
 class fish(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('fish')
+        self._load_images('fish', 1.5)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -96,7 +96,7 @@ class fish(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'blue'
+        self._elementatr = 'blue'
         self._speed = 25
         self._health = 90
         self._damage = 7
@@ -109,7 +109,7 @@ class fish(Enemy):
 class flying_snake(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('flying_snake')
+        self._load_images('flying_snake', 1.2)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -117,7 +117,7 @@ class flying_snake(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'air'
-        self._attripute = 'green'
+        self._elementatr = 'green'
         self._speed = 15
         self._health = 200
         self._damage = 24
@@ -130,7 +130,7 @@ class flying_snake(Enemy):
 class golem(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('golem')
+        self._load_images('golem', 1.8)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -138,7 +138,7 @@ class golem(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'yellow'
+        self._elementatr = 'yellow'
         self._speed = 10
         self._health = 450
         self._damage = 60
@@ -151,7 +151,7 @@ class golem(Enemy):
 class bimba(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('bimba')
+        self._load_images('bimba', 1.3)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -159,7 +159,7 @@ class bimba(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'red'
+        self._elementatr = 'red'
         self._speed = 50
         self._health = 45
         #self._damage = 100   
@@ -172,7 +172,7 @@ class bimba(Enemy):
 class red_elemental(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('red_elemental')
+        self._load_images('red_elemental', 1.8)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -180,7 +180,7 @@ class red_elemental(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'air'
-        self._attripute = 'red'
+        self._elementatr = 'red'
         self._speed = 15
         self._health = 160
         self._damage = 22
@@ -193,7 +193,7 @@ class red_elemental(Enemy):
 class blue_elemental(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('blue_elemental')
+        self._load_images('blue_elemental', 1.8)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -201,7 +201,7 @@ class blue_elemental(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'air'
-        self._attripute = 'blue'
+        self._elementatr = 'blue'
         self._speed = 15
         self._health = 160
         self._damage = 22
@@ -214,7 +214,7 @@ class blue_elemental(Enemy):
 class green_elemental(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('green_elemental')
+        self._load_images('green_elemental', 1.8)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -222,7 +222,7 @@ class green_elemental(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'air'
-        self._attripute = 'green'
+        self._elementatr = 'green'
         self._speed = 15
         self._health = 160
         self._damage = 22
@@ -235,7 +235,7 @@ class green_elemental(Enemy):
 class yellow_elemental(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('yellow_elemental')
+        self._load_images('yellow_elemental', 1.8)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -243,7 +243,7 @@ class yellow_elemental(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'air'
-        self._attripute = 'yellow'
+        self._elementatr = 'yellow'
         self._speed = 15
         self._health = 160
         self._damage = 22
@@ -256,7 +256,7 @@ class yellow_elemental(Enemy):
 class red_slime(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('red_slime')
+        self._load_images('red_slime', 1)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -264,7 +264,7 @@ class red_slime(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'red'
+        self._elementatr = 'red'
         self._speed = 25
         self._health = 70
         self._damage = 6
@@ -277,7 +277,7 @@ class red_slime(Enemy):
 class blue_slime(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('blue_slime')
+        self._load_images('blue_slime', 1)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -285,7 +285,7 @@ class blue_slime(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'blue'
+        self._elementatr = 'blue'
         self._speed = 25
         self._health = 70
         self._damage = 6
@@ -298,7 +298,7 @@ class blue_slime(Enemy):
 class Loki(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('LOKI')
+        self._load_images('LOKI', 1.8)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -306,7 +306,7 @@ class Loki(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'normal'
+        self._elementatr = 'normal'
         self._speed = 35
         self._health = 160
         self._damage = 24
@@ -319,7 +319,7 @@ class Loki(Enemy):
 class ghost(Enemy):                                                # It is invisible for the towers, can be killed only by splash
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('ghost')
+        self._load_images('ghost', 1.2)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -327,7 +327,7 @@ class ghost(Enemy):                                                # It is invis
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'normal'
+        self._elementatr = 'normal'
         self._speed = 30
         self._health = 80
         #self._damage = 0
@@ -340,7 +340,7 @@ class ghost(Enemy):                                                # It is invis
 class wizard(Enemy):                                               # Can attack towers, from the far distance
     def __init__(self, spawn_line, turn_lines, groups):
         self._frame_index = 0
-        self._load_images('wizard')
+        self._load_images('wizard', 1.3)
         surf = self._frames[0]
         super().__init__(surf, spawn_line, turn_lines, groups)
 
@@ -348,7 +348,7 @@ class wizard(Enemy):                                               # Can attack 
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'normal'
+        self._elementatr = 'normal'
         self._speed = 15
         self._health = 70
         self._damage = 15
@@ -369,7 +369,7 @@ class BOSS(Enemy):
 
     def _stats_setup(self):
         self._movement_type = 'ground'
-        self._attripute = 'normal'
+        self._elementatr = 'normal'
         self._speed = 10
         self._health = 1000
         self._damage = 50
