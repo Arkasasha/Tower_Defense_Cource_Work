@@ -1,7 +1,7 @@
 from settings import *
 from Towers.tower import Tower
 from groups import LevelSprites
-from Towers.tower_projectile_types import CannonProjectile
+from Towers.tower_projectile_types import *
 
 class Cannon(Tower):
     def __init__(self, grid, groups):
@@ -34,8 +34,8 @@ class MegaCannon(Tower):
     def __init__(self, grid, groups):
         tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
         tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'mega_cannon', 'tower', '0.png')).convert_alpha()
-        width, height = tower_head_surf.get_size()
-        tower_head_surf = pygame.transform.smoothscale(tower_head_surf, (width * 2, height * 2))
+        # width, height = tower_head_surf.get_size()
+        # tower_head_surf = pygame.transform.smoothscale(tower_head_surf, (width * 2, height * 2))
         tower_range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'surface.png')).convert_alpha()
         tower_range_mask = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'mask.png')).convert_alpha()
         tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '1x1', 'surface.png')).convert_alpha()
@@ -46,6 +46,10 @@ class MegaCannon(Tower):
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
+        self._damage = 100
+    
+    def _create_projectile(self):
+        MegaCannonProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
     
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
@@ -69,6 +73,10 @@ class ReactiveCannon(Tower):
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
+        self._damage = 100
+    
+    def _create_projectile(self):
+        ReactiveCannonProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
     
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
@@ -92,7 +100,11 @@ class XBow(Tower):
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
-    
+        self._damage = 100
+
+    def _create_projectile(self):
+        XBowProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
+
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
         y = self._tower_head.get_rect().centery
@@ -115,6 +127,10 @@ class Tesla(Tower):
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
+        self._damage = 100
+    
+    def _create_projectile(self):
+        TeslaProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
     
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
@@ -130,7 +146,7 @@ class Arta(Tower):
 class ArtaSon(Tower):
     pass
 
-class Wizard(Tower):
+class WizardTower(Tower):
     def __init__(self, grid, groups):
         tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
         tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'wizard_tower', 'tower', '0.png')).convert_alpha()
@@ -144,7 +160,11 @@ class Wizard(Tower):
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
+        self._damage = 100
     
+    def _create_projectile(self):
+        WizardTowerProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
+
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
         y = self._tower_head.get_rect().centery
@@ -167,7 +187,11 @@ class MagicaCannon(Tower):
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
+        self._damage = 100
     
+    def _create_projectile(self):
+        MagicaCannonProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
+
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
         y = self._tower_head.get_rect().centery
@@ -190,7 +214,11 @@ class TornadoTower(Tower):
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
+        self._damage = 100
     
+    def _create_projectile(self):
+        TornadoTowerProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
+
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
         y = self._tower_head.get_rect().centery
@@ -209,6 +237,7 @@ class DrotikTower(Tower):
     def __init__(self, grid, groups):
         tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
         tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'drotik_tower', 'tower', '0.png')).convert_alpha()
+        tower_head_surf = pygame.transform.flip(tower_head_surf, True, False)
         tower_range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'surface.png')).convert_alpha()
         tower_range_mask = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'mask.png')).convert_alpha()
         tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '1x1', 'surface.png')).convert_alpha()
@@ -219,6 +248,10 @@ class DrotikTower(Tower):
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
+        self._damage = 100
+
+    def _create_projectile(self):
+        DrotikTowerProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
 
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
@@ -231,23 +264,34 @@ class DrotikTower(Tower):
 class MegaXBow(Tower):
     def __init__(self, grid, groups):
         tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
+        width, height = tower_base_surf.get_size()
+        tower_base_surf = pygame.transform.smoothscale(tower_base_surf, (width * 2, height * 2))
+
         tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'mega_xbow', 'tower', '0.png')).convert_alpha()
+        width, height = tower_head_surf.get_size()
+        tower_head_surf = pygame.transform.smoothscale(tower_head_surf, (width * 2, height * 2))
+
         tower_range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'A', 'surface.png')).convert_alpha()
         tower_range_mask = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'A', 'mask.png')).convert_alpha()
-        tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '1x1', 'surface.png')).convert_alpha()
-        super().__init__(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf)
+        tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '2x2', 'surface.png')).convert_alpha()
+        super().__init__(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf, type2x2 = True)
 
         self._setup_stats()
 
     def _setup_stats(self):
         # Stats
         self._cooldown_time = 300
+        self._damage = 100
     
+    def _create_projectile(self):
+        MegaXBowProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
+
     def get_projectile_pos(self):
         x = self._tower_head.get_rect().centerx
         y = self._tower_head.get_rect().centery
-        if self._tower_head.get_direction().x >= 0:
-            return (x + 4, y - 7.5)
-        if self._tower_head.get_direction().x < 0:
-            return (x - 4, y - 7.5)
+        # if self._tower_head.get_direction().x >= 0:
+        #     return (x, y - 4)
+        # if self._tower_head.get_direction().x < 0:
+        #     return (x, y)
+        return (x, y)
    

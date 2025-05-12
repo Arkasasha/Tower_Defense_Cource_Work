@@ -2,6 +2,7 @@ from settings import *
 from math import atan2, degrees
 from numpy import sign, pi
 from enemy import Enemy
+from groups import EnemySprites
 
 class TowerProjectile(pygame.sprite.Sprite):
     def __init__(self, surf, pos, enemy, damage, groups):
@@ -10,13 +11,16 @@ class TowerProjectile(pygame.sprite.Sprite):
         self._image = surf
         self._original_image = self._image
         self._rect = self._image.get_frect(center = pos)
-
-        self._speed = 150
-        self._direction = None
+        self._mask = pygame.mask.from_surface(self._image)
         
         self._damage = damage
         self._enemy = enemy
         self.isprojectile = True
+
+        self._speed = 150
+        self._direction = None
+        self._set_direction()
+        self._rotate()
 
     def get_image(self):
         return self._image
@@ -39,8 +43,10 @@ class TowerProjectile(pygame.sprite.Sprite):
         # self._rect = self._image.get_frect(center = self._tower.get_head_pos())
 
     def _check_if_reached_enemy(self):
-        if self._rect.collidepoint(self._enemy.get_rect().center):
-            return True
+        offset = (self._enemy.get_rect().left - self._rect.left, 
+                  self._enemy.get_rect().top - self._rect.top)
+        if self._mask.overlap(self._enemy.get_mask(), offset):
+                return True
         return False
 
     def _move(self, dt):

@@ -2,7 +2,7 @@ from settings import *
 from map_tiles import *
 from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites
-from Towers.tower_types import Cannon
+from Towers.tower_types import *
 from enemy import Enemy
 from enemies_types import *
 
@@ -23,6 +23,10 @@ class Level:
             for j in range(int(WINDOW_WIDTH / TILE_SIZE)):
                 self._tower_grid[i].append(False)
             self._tower_grid.append([])
+
+        # tower placing check
+        self._tower_to_be_placed = None
+        self._tower_is_being_placed = False
 
         self._setup()
     
@@ -72,30 +76,49 @@ class Level:
         portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
         Portal(portal_surf, self._level_sprites)
 
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'swordsman', 'movement', '0.png')).convert_alpha()
-        # swordsman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'tankman', 'movement', '0.png')).convert_alpha()
-        # tankman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'spearsman', 'movement', '0.png')).convert_alpha()
-        # spearsman(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'fish', 'movement', '0.png')).convert_alpha()
-        # fish(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'flying_snake', 'movement', '00.png')).convert_alpha()
-        # flying_snake(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
-
-        # enemy_surf = pygame.image.load(join('Game', 'Assets', 'Enemies', 'rogue', 'movement', '0.png')).convert_alpha()
-        # rogue(enemy_surf, self.spawn_line, self.turn_lines, self.level_sprites)
+    def _check_tower_being_placed(self):
+        if self._tower_is_being_placed:
+            self._tower_to_be_placed.delete_tower()
+            self._tower_to_be_placed = None
+        else:
+            self._tower_is_being_placed = True
 
     def run_the_level(self):
         dt = self._clock.tick() / 1000
-  
+        if self._tower_is_being_placed:
+            if self._tower_to_be_placed.get_placement_state():
+                self._tower_is_being_placed = False
+                self._tower_to_be_placed = None
+
         keys = pygame.key.get_just_pressed()
-        if keys[pygame.K_o]:
-            Cannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_q]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed =  Cannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_w]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = MegaCannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_e]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = ReactiveCannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_r]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = XBow(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_t]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = WizardTower(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_y]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = MagicaCannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_y]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = MagicaCannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_u]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = DrotikTower(self._tower_grid, (self._level_sprites, self._tower_sprites))
+        if keys[pygame.K_i]:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = MegaXBow(self._tower_grid, (self._level_sprites, self._tower_sprites))
+
         if keys[pygame.K_p]:
             swordsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
 

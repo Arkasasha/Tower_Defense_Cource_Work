@@ -17,6 +17,7 @@ class Enemy(pygame.sprite.Sprite):
         # self._rect = pygame.FRect(0, 0, 16, 16)
         # self._rect.midbottom = (spawn_x, spawn_y)
         self._rect = self._image.get_frect(centerx = spawn_x, bottom = spawn_y)
+        self._mask = pygame.mask.from_surface(self._image)
         
 
         self._hitbox = pygame.FRect(self._rect)
@@ -42,6 +43,9 @@ class Enemy(pygame.sprite.Sprite):
     
     def get_rect(self):
         return self._rect
+    
+    def get_mask(self):
+        return self._mask
 
     def get_traveled_distance(self):
         return self._traveled_distance
@@ -51,7 +55,7 @@ class Enemy(pygame.sprite.Sprite):
     
     # functions
     def deal_damage(self, damage):
-        self._health -= damage
+        self._health -= damage / 100
         if self._health <= 0:
             self.kill()
             self._is_dead = True

@@ -4,9 +4,9 @@ from groups import LevelSprites, EnemySprites
 from Towers.tower_projectile_types import CannonProjectile
 
 class Tower(pygame.sprite.Sprite):
-    def __init__(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf):
+    def __init__(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf, type2x2 = False):
         super().__init__(groups[1])    # passes TowerSprites group
-        self._setup(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf)
+        self._setup(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf, type2x2)
         self._enemyTracked = None
 
         self._can_shoot = True
@@ -16,14 +16,25 @@ class Tower(pygame.sprite.Sprite):
 
         self._proj_id = 0
 
-    def _setup(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf):
+    def _setup(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf, type2x2):
         self._tower_base = TowerBottom(tower_base_surf, grid, groups[0])
         self._tower_head = TowerHead(tower_head_surf, self._tower_base.get_rect().midtop, self._tower_base, groups[0])
         self._tower_range = TowerRange(tower_range_surf, tower_range_mask, self._tower_base.get_rect().center, self._tower_base, groups[0])
-        self._tower_hitbox = TowerHitbox(tower_hitbox_surf, self._tower_base, groups[0])
+        self._tower_hitbox = TowerHitbox(tower_hitbox_surf, self._tower_base, groups[0], type2x2)
 
         self._tower_base.set_hitbox(self._tower_hitbox)
+    # deleter
+    def delete_tower(self):
+        self._tower_base.delete_object()
+        self._tower_head.delete_object()
+        self._tower_range.delete_object()
+        self._tower_hitbox.delete_object()
+        self.kill()
+        del self
 
+    # getters
+    def get_placement_state(self):
+        return self._tower_base.get_state()
 
     @staticmethod
     def check_point_in_mask(x, y, mask):
@@ -82,7 +93,7 @@ class Tower(pygame.sprite.Sprite):
         self._tower_head.set_direction(self._enemyTracked.get_rect().center)
 
     def update(self, dt):
-        if self._tower_base.placed:
+        if self._tower_base.get_state():
             self._tower_range.hasToBeShown = False
             self._tower_hitbox.hasToBeShown = False
 
