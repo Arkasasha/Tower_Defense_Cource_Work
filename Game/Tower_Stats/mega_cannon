@@ -1,9 +1,9 @@
-Cannon { 
+Mega_cannon { 
     radius: B
-    damage: 15
+    damage: 40
     abilities: None
-    splash: B
-    speed: 1000
+    splash: A
+    speed: 2500
     hitbox: 1x1
     projectile_speed: 100
 }

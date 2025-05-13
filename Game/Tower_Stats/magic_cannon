@@ -1,4 +1,4 @@
-Cannon { 
+Magic_cannon {
     radius: B
     damage: 15
     abilities: None

@@ -1,9 +1,9 @@
-Cannon { 
+Reactive_cannon { 
     radius: B
-    damage: 15
+    damage: 10
     abilities: None
-    splash: B
-    speed: 1000
+    splash: D
+    speed: 500
     hitbox: 1x1
     projectile_speed: 100
 }
