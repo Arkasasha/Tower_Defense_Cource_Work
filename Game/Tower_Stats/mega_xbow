@@ -1,0 +1,9 @@
+Mega_xbow { 
+    radius: A
+    damage: 40%
+    abilities: None
+    splash: D
+    speed: 1000
+    hitbox: 2x2
+    projectile_speed: 100
+}

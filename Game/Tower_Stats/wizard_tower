@@ -1,0 +1,9 @@
+Wizard_tower { 
+    radius: A+
+    damage: 15
+    abilities: None
+    splash: B
+    speed: 750
+    hitbox: 1x1
+    projectile_speed: 100
+}

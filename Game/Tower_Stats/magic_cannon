@@ -1,0 +1,9 @@
+Magic_cannon {
+    radius: B
+    damage: 15
+    abilities: None
+    splash: B
+    speed: 1000
+    hitbox: 1x1
+    projectile_speed: 100
+}

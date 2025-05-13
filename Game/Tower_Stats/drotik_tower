@@ -1,0 +1,9 @@
+Drotik_tower {
+    radius: B
+    damage: 5
+    abilities: None
+    splash: D
+    speed: 250
+    hitbox: 1x1
+    projectile_speed: 100
+}

@@ -1,0 +1,9 @@
+Xbow { 
+    radius: B
+    damage: 8
+    abilities: None
+    splash: D
+    speed: 750
+    hitbox: 1x1
+    projectile_speed: 100
+}
