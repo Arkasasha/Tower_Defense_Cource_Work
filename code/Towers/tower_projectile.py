@@ -51,12 +51,12 @@ class TowerProjectile(pygame.sprite.Sprite):
         return False
 
     def _move(self, dt):
-        self._rect.midright += self._direction * self._speed * dt
+        self._rect.center += self._direction * self._speed * dt
 
     def update(self, dt):
         self._set_direction()
         self._rotate()
         self._move(dt)
         if self._check_if_reached_enemy():
-            self._enemy.deal_damage(40, 'normal')
+            self._enemy.deal_damage(self._damage, 'normal')
             self.kill()

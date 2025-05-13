@@ -72,3 +72,6 @@ class MegaXBowProjectile(TowerProjectile):
         width, height = surface.get_size()
         surface = pygame.transform.smoothscale(surface, (width * 2, height * 2))
         super().__init__(surface, pos, enemy, damage, speed, splash, groups)
+        mask_surface = pygame.Surface(self._rect.size)
+        mask_surface.fill((0, 0, 0))
+        self._mask = pygame.mask.from_surface(self._image)
