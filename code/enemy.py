@@ -1,6 +1,7 @@
 from settings import *
 from numpy import sign
 from groups import EnemySprites
+from groups import EnemyInCastle
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, surf, spawn_line, turn_lines, groups):
@@ -37,6 +38,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self._turned_lines = set()  # отслеживание уже использованных линий
         self._traveled_distance = 0
+        self._castle = EnemyInCastle()
 
     # getters and setters
     def get_image(self):
@@ -186,6 +188,7 @@ class Enemy(pygame.sprite.Sprite):
         self._animate(dt)
         if self._check_turn():
             if self._next_line + 1 == len(self._turn_lines):
+                self._castle.add_damage(self._attack_maintower)
                 self.kill()
                 self._is_dead = True
                 del self

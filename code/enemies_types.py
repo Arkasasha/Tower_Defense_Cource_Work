@@ -159,7 +159,7 @@ class bimba(Enemy):
     def _stats_setup(self):
         self._movement_type = 'ground'
         self._elementatr = 'red'
-        self._speed = 50
+        self._speed = 500
         self._health = 45
         #self._damage = 100   
         #self._attack_cooldown = 1.0

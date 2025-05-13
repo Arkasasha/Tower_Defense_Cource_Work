@@ -4,6 +4,7 @@ from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites, LevelScreenSprites
 from entity_factories import EnemySpawner, TowerSpawner
 from Interface import *
+from Castle import Castle
 
 class Level:
     def __init__(self):
@@ -29,6 +30,8 @@ class Level:
         # tower placing check
         self._tower_to_be_placed = None
         self._tower_is_being_placed = False
+
+        self._castle = Castle()
 
         # enemy spawning
         self._next_enemy_id = 0
@@ -58,7 +61,7 @@ class Level:
                 Forest(image, (x * TILE_SIZE, y * TILE_SIZE), self._level_sprites)
         
         for x, y, image in map.get_layer_by_name('Castle').tiles():
-            Castle(image, (x * TILE_SIZE, y * TILE_SIZE), self._level_sprites)
+            CastleSprite(image, (x * TILE_SIZE, y * TILE_SIZE), self._level_sprites)
 
         for x, y, image in map.get_layer_by_name('Add').tiles():
             Decoration(image, (x * TILE_SIZE, y * TILE_SIZE), self._level_sprites)
@@ -213,9 +216,10 @@ class Level:
                 self._tower_to_be_placed.delete_tower()
                 self._tower_to_be_placed = None
 
+        self._castle.get_damage()
+
         # spawn enemies
         self._enemy_spawn_timer()
         self._spawn_entity()
 
-        self._update_and_draw_screen(dt)
-            
+        self._update_and_draw_screen(dt) 

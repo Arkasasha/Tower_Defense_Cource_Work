@@ -51,6 +51,21 @@ class EnemySprites(pygame.sprite.Group):
         super().__init__()
         self._display_surface = display_surface
 
+@singleton     
+class EnemyInCastle:
+    def __init__(self):
+        self._damages = []
+    
+    def add_damage(self, damage):
+        self._damages.append(damage)
+    
+    def get_damage(self):
+        overall_damage = 0
+        for damage in self._damages:
+            overall_damage += damage
+        self._damages = []
+        return overall_damage
+
 class LevelScreenSprites(pygame.sprite.Group):
     def __init__(self, display_surface):
         super().__init__()

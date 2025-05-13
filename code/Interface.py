@@ -1,5 +1,4 @@
 from settings import *
-import sys
 
 
 class RightPanel(pygame.sprite.Sprite):
