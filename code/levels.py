@@ -2,8 +2,7 @@ from settings import *
 from map_tiles import *
 from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites, LevelScreenSprites
-from Towers.tower_types import *
-from enemies_types import *
+from entity_factories import EnemySpawner, TowerSpawner
 from Interface import *
 
 class Level:
@@ -74,6 +73,9 @@ class Level:
                 self._turn_lines.append(turn_line)
         self._turn_lines.sort(key = lambda line: int(line.get_name()))
 
+        # factories
+        self._enemy_factory = EnemySpawner(self._spawn_line, self._turn_lines, self._enemy_sprites, self._level_sprites)
+        self._tower_factory = TowerSpawner(self._tower_grid, self._level_sprites, self._tower_sprites)
 
         # Load a portal
         portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
@@ -88,7 +90,15 @@ class Level:
 
         exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
         self._exit_button = ExitButton(exit_button_surf, self._interface_sprites)
-        
+
+    # getters
+    def get_level_sprites(self):
+        return self._level_sprites
+    
+    def get_level_sprites(self):
+        return self._level_sprites
+
+    # main functionality
     def _check_tower_being_placed(self):
         if self._tower_is_being_placed:
             self._tower_to_be_placed.delete_tower()
@@ -98,56 +108,53 @@ class Level:
 
     def _spawn_entity(self):
         keys = pygame.key.get_just_pressed()
+        tower_type = None
         if keys[pygame.K_q]:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed =  Cannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+            tower_type = 'cannon'
         if keys[pygame.K_w]:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed = MegaCannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+            tower_type = 'mega_cannon'
         if keys[pygame.K_e]:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed = ReactiveCannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+            tower_type = 'reactive_cannon'
         if keys[pygame.K_r]:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed = XBow(self._tower_grid, (self._level_sprites, self._tower_sprites))
+            tower_type = 'Xbow'
         if keys[pygame.K_t]:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed = WizardTower(self._tower_grid, (self._level_sprites, self._tower_sprites))
+            tower_type = 'wizard_tower'
         if keys[pygame.K_y]:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed = MagicaCannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
-        if keys[pygame.K_y]:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed = MagicaCannon(self._tower_grid, (self._level_sprites, self._tower_sprites))
+            tower_type = 'magic_cannon'
         if keys[pygame.K_u]:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed = DrotikTower(self._tower_grid, (self._level_sprites, self._tower_sprites))
+            tower_type = 'drotik_tower'
         if keys[pygame.K_i]:
+            tower_type = 'mega_xbow'
+        if tower_type != None:
             self._check_tower_being_placed()
-            self._tower_to_be_placed = MegaXBow(self._tower_grid, (self._level_sprites, self._tower_sprites))
+            self._tower_to_be_placed = self._tower_factory.create_tower(tower_type)
 
+
+        enemy_type = None
         if keys[pygame.K_p]:
-            Loki(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
+            enemy_type = 'LOKI'
         if keys[pygame.K_1]:
-            tankman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'tankman'
         if keys[pygame.K_2]:
-            spearsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'spearsmen'
         if keys[pygame.K_3]:
-            fish(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'fish'
         if keys[pygame.K_4]:
-            flying_snake(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'flying_snake'
         if keys[pygame.K_5]:
-            rogue(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'rogue'
         if keys[pygame.K_6]:
-            red_elemental(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'red_elemental'
         if keys[pygame.K_7]:
-            blue_slime(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'blue_slime'
         if keys[pygame.K_8]:
-            golem(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'golem'
         if keys[pygame.K_9]:
-            ghost(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'ghost'
         if keys[pygame.K_0]:
-            bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            enemy_type = 'bimba'
+        if enemy_type != None:
+            self._enemy_factory.create_enemy(enemy_type)
 
     def _update_and_draw_screen(self, dt):
         self._level_sprites.update(dt)
