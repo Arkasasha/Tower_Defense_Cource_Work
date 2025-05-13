@@ -5,6 +5,7 @@ from groups import LevelSprites, TowerSprites, EnemySprites, LevelScreenSprites
 from Towers.tower_types import *
 from enemies_types import *
 from Interface import *
+from Castle import Castle
 
 class Level:
     def __init__(self):
@@ -31,6 +32,8 @@ class Level:
         self._tower_to_be_placed = None
         self._tower_is_being_placed = False
 
+        self._castle = Castle()
+
         self._setup()
     
     def _setup(self):
@@ -56,7 +59,7 @@ class Level:
                 Forest(image, (x * TILE_SIZE, y * TILE_SIZE), self._level_sprites)
         
         for x, y, image in map.get_layer_by_name('Castle').tiles():
-            Castle(image, (x * TILE_SIZE, y * TILE_SIZE), self._level_sprites)
+            CastleSprite(image, (x * TILE_SIZE, y * TILE_SIZE), self._level_sprites)
 
         for x, y, image in map.get_layer_by_name('Add').tiles():
             Decoration(image, (x * TILE_SIZE, y * TILE_SIZE), self._level_sprites)
@@ -73,7 +76,6 @@ class Level:
                 turn_line = Turn_lines(polygon_points, obj.name, obj.type)
                 self._turn_lines.append(turn_line)
         self._turn_lines.sort(key = lambda line: int(line.get_name()))
-
 
         # Load a portal
         portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
@@ -186,5 +188,6 @@ class Level:
                 self._tower_to_be_placed.delete_tower()
                 self._tower_to_be_placed = None
 
-        self._update_and_draw_screen(dt)
-            
+        self._castle.get_damage()
+
+        self._update_and_draw_screen(dt) 

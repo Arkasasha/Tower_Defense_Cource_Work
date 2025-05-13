@@ -30,7 +30,7 @@ class Decoration(Terrain):
         super().__init__(*args, **kwargs)
         self.decoration = True
 
-class Castle(Terrain):
+class CastleSprite(Terrain):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.castle = True

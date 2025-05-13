@@ -4,6 +4,7 @@ from pytmx.util_pygame import load_pygame
 from os.path import join 
 from os import walk
 import math
+import sys
 
 pygame.init()
 info = pygame.display.Info()
