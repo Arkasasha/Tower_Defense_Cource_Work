@@ -17,7 +17,8 @@ class TowerProjectile(pygame.sprite.Sprite):
         self._enemy = enemy
         self.isprojectile = True
 
-        self._set_stats(speed, splash)
+        self._speed = speed
+        self._splash = splash
         self._direction = None
         self._set_direction()
         self._rotate()
@@ -27,10 +28,6 @@ class TowerProjectile(pygame.sprite.Sprite):
     
     def get_rect(self):
         return self._rect
-
-    def _set_stats(self, speed, splash):
-        self._speed = speed
-        self._splash = splash
 
     def _set_direction(self):
         projectile_pos = pygame.Vector2(self._rect.center)
