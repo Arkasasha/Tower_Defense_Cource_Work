@@ -1,7 +1,7 @@
 from settings import *
 from map_tiles import *
-from sprites import Portal
-from groups import LevelSprites, TowerSprites, EnemySprites
+from sprites import Portal, Right_panel, Bottom_panel
+from groups import LevelSprites, TowerSprites, EnemySprites, InterfaceSprites
 from Towers.tower_types import Cannon
 from enemies_types import *
 
@@ -15,6 +15,7 @@ class Level:
         self._collison_sprites = pygame.sprite.Group()
         self._tower_sprites = TowerSprites()
         self._enemy_sprites = EnemySprites()
+        self._interface_sprites = InterfaceSprites()
 
         # tower grid
         self._tower_grid = [[]]
@@ -71,6 +72,12 @@ class Level:
         portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
         Portal(portal_surf, self._level_sprites)
 
+        # Load interface
+        right_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Right_panel.png')).convert_alpha()
+        Right_panel(right_panel_surf, self._interface_sprites)
+
+        bottom_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Bottom_panel.png')).convert_alpha()
+        Bottom_panel(bottom_panel_surf, self._interface_sprites)
 
     def run_the_level(self):
         dt = self._clock.tick() / 1000
@@ -104,9 +111,12 @@ class Level:
 
         self._level_sprites.update(dt)
         self._tower_sprites.update(dt)
+        self._interface_sprites.update(dt)
 
         self._display_surface.fill('#A020F0')
         self._level_sprites.draw()
+        self._interface_sprites.draw()
+
         
         # # Проверка линий
         # for polygon in self._turn_lines:

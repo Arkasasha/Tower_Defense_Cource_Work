@@ -5,7 +5,7 @@ from os.path import join
 from os import walk
 import math
 
-WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 640
+WINDOW_WIDTH, WINDOW_HEIGHT = 1650, 800
 TILE_SIZE = 32
 
 def singleton(cls):
