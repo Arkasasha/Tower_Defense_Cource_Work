@@ -47,7 +47,7 @@ class TowerHitbox(pygame.sprite.Sprite):
         self._tower = tower
         self._is_2x2 = type
 
-        pos = pygame.Vector2(pygame.mouse.get_pos())
+        pos = pygame.Vector2(get_fixed_mouse_pos())
         self._image = surf
         width, height = self._image.get_size()
         self._image = pygame.transform.scale(self._image, (width * 2, height * 2))
@@ -142,7 +142,7 @@ class TowerBottom(pygame.sprite.Sprite):
         self._image = surf
         width, height = self._image.get_size()
         self._image = pygame.transform.scale(self._image, (width / 2, height / 2))
-        self._rect = self._image.get_frect(center = pygame.Vector2(pygame.mouse.get_pos()))
+        self._rect = self._image.get_frect(center = pygame.Vector2(get_fixed_mouse_pos()[0]))
 
         self._tower_head_offset_x = 0
         self._tower_head_offset_y = 10
@@ -153,7 +153,7 @@ class TowerBottom(pygame.sprite.Sprite):
     def delete_object(self):
         self.kill()
         del self
-    
+
     # getters
     def get_image(self):
         return self._image
@@ -202,10 +202,15 @@ class TowerBottom(pygame.sprite.Sprite):
             self._grid[y+1][x+1] = True
 
     def _place_tower(self):
-        x_count = pygame.Vector2(pygame.mouse.get_pos()).x / TILE_SIZE
-        y_count = pygame.Vector2(pygame.mouse.get_pos()).y / TILE_SIZE
+        x_count = pygame.Vector2(get_fixed_mouse_pos()).x / TILE_SIZE
+        y_count = pygame.Vector2(get_fixed_mouse_pos()).y / TILE_SIZE
         new_x = int(x_count) * TILE_SIZE - LevelSprites().get_offset()
         new_y = int(y_count) * TILE_SIZE - LevelSprites().get_offset()
+        if self._tower_hitbox.get_type() == '2x2':
+            if new_x == LEVEL_SCREEN_WIDTH - TILE_SIZE:
+                new_x -= TILE_SIZE
+            if new_y == LEVEL_SCREEN_HEIGHT - TILE_SIZE:
+                new_y -= TILE_SIZE
         self._rect.topleft = (new_x, new_y)
         if pygame.mouse.get_just_pressed()[0]:
             if self._check_place():

@@ -7,20 +7,22 @@ from enemies_types import *
 
 class Level:
     def __init__(self):
-        self._display_surface = pygame.display.get_surface()
+        self._screen_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self._SCREEN_WIDTH, self._SCREEN_HEIGHT = self._screen_surface.get_size()
+        self._display_surface = pygame.Surface((LEVEL_SCREEN_WIDTH, LEVEL_SCREEN_HEIGHT))
+        self._interface_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
         self._clock = pygame.time.Clock()
 
         # groups 
-        self._level_sprites = LevelSprites()
-        self._collison_sprites = pygame.sprite.Group()
-        self._tower_sprites = TowerSprites()
-        self._enemy_sprites = EnemySprites()
-        self._interface_sprites = InterfaceSprites()
+        self._level_sprites = LevelSprites(self._display_surface)
+        self._tower_sprites = TowerSprites(self._display_surface)
+        self._enemy_sprites = EnemySprites(self._display_surface)
+        self._interface_sprites = InterfaceSprites(self._interface_surface)
 
         # tower grid
         self._tower_grid = [[]]
-        for i in range(int(WINDOW_HEIGHT / TILE_SIZE)):
-            for j in range(int(WINDOW_WIDTH / TILE_SIZE)):
+        for i in range(int(LEVEL_SCREEN_HEIGHT / TILE_SIZE)):
+            for j in range(int(LEVEL_SCREEN_WIDTH / TILE_SIZE)):
                 self._tower_grid[i].append(False)
             self._tower_grid.append([])
 
@@ -90,6 +92,20 @@ class Level:
         else:
             self._tower_is_being_placed = True
 
+    def _update_and_draw_screen(self, dt):
+        self._level_sprites.update(dt)
+        self._tower_sprites.update(dt)
+        self._interface_sprites.update(dt)
+
+        self._display_surface.fill('#A020F0')
+        self._level_sprites.draw()
+        self._interface_surface.blit(self._display_surface, (0, 0))
+        self._interface_sprites.draw()
+
+        scaled_surface = pygame.transform.scale(self._interface_surface, (self._SCREEN_WIDTH, self._SCREEN_HEIGHT))
+        self._screen_surface.blit(scaled_surface, (0, 0))
+        pygame.display.flip()
+
     def run_the_level(self):
         dt = self._clock.tick() / 1000
         if self._tower_is_being_placed:
@@ -150,20 +166,5 @@ class Level:
             bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
 
 
-        self._level_sprites.update(dt)
-        self._tower_sprites.update(dt)
-        self._interface_sprites.update(dt)
-
-        self._display_surface.fill('#A020F0')
-        self._level_sprites.draw()
-        self._interface_sprites.draw()
-
-        
-        # # Проверка линий
-        # for polygon in self._turn_lines:
-        #     pygame.draw.polygon(self._display_surface, 'red', polygon.get_points(), 2)
-        # # Отладка: рисуем линию спавна
-        # pygame.draw.polygon(self._display_surface, 'blue', self._spawn_line, 2)
-
-        pygame.display.flip()
+        self._update_and_draw_screen(dt)
 

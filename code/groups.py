@@ -3,9 +3,9 @@ from sprites import Terrain
 
 @singleton
 class LevelSprites(pygame.sprite.Group):
-    def __init__(self):
+    def __init__(self, display_surface):
         super().__init__()
-        self._display_surface = pygame.display.get_surface()
+        self._display_surface = display_surface
         self._offset = 0
     
     # getters and setters
@@ -40,20 +40,20 @@ class LevelSprites(pygame.sprite.Group):
                                                                 sprite.get_rect().topleft[1] + self._offset))
 
 class TowerSprites(pygame.sprite.Group):
-    def __init__(self):
+    def __init__(self, display_surface):
         super().__init__()
-        self._display_surface = pygame.display.get_surface()
+        self._display_surface = display_surface
 
 @singleton
 class EnemySprites(pygame.sprite.Group):
-    def __init__(self):
+    def __init__(self, display_surface):
         super().__init__()
-        self._display_surface = pygame.display.get_surface()
+        self._display_surface = display_surface
 
 class InterfaceSprites(pygame.sprite.Group):
-    def __init__(self):
+    def __init__(self, display_surface):
         super().__init__()
-        self._display_surface = pygame.display.get_surface()
+        self._display_surface = display_surface
         
     def draw(self):
         right_panel = [sprite for sprite in self if hasattr(sprite, 'isright_panel')]

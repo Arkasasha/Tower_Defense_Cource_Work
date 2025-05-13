@@ -7,7 +7,6 @@ from random import randint
 @singleton
 class Game:
     def __init__(self):
-        pygame.init()
         self._running = True
         self._display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Tower Defence')
