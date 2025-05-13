@@ -5,7 +5,7 @@ from enemy import Enemy
 from groups import EnemySprites
 
 class TowerProjectile(pygame.sprite.Sprite):
-    def __init__(self, surf, pos, enemy, damage, groups):
+    def __init__(self, surf, pos, enemy, damage, speed, splash, groups):
         super().__init__(groups)
 
         self._image = surf
@@ -17,7 +17,7 @@ class TowerProjectile(pygame.sprite.Sprite):
         self._enemy = enemy
         self.isprojectile = True
 
-        self._speed = 150
+        self._set_stats(speed, splash)
         self._direction = None
         self._set_direction()
         self._rotate()
@@ -27,6 +27,10 @@ class TowerProjectile(pygame.sprite.Sprite):
     
     def get_rect(self):
         return self._rect
+
+    def _set_stats(self, speed, splash):
+        self._speed = speed
+        self._splash = splash
 
     def _set_direction(self):
         projectile_pos = pygame.Vector2(self._rect.center)

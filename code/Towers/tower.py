@@ -11,7 +11,6 @@ class Tower(pygame.sprite.Sprite):
 
         self._can_shoot = True
         self._projectile_shoot_time = 0
-        self._cooldown_time = 300
         self._projectiles = []
 
         self._proj_id = 0
@@ -24,7 +23,10 @@ class Tower(pygame.sprite.Sprite):
                     if parts[0] == 'radius':
                         self._range = parts[1].lstrip()
                     elif parts[0] == 'damage':
-                        self._damage = int(parts[1].lstrip())
+                        if parts[1].lstrip()[-1] == '%':
+                            self._damage = parts[1].lstrip()
+                        else:
+                            self._damage = int(parts[1].lstrip())
                     elif parts[0] == 'abilities':
                         if parts[1] == None:
                             self._abilities = None
@@ -36,6 +38,8 @@ class Tower(pygame.sprite.Sprite):
                         self._cooldown_time = int(parts[1].lstrip())
                     elif parts[0] == 'hitbox':
                         self._hitbox_size = parts[1].lstrip()
+                    elif parts[0] == 'projectile_speed':
+                        self._projectile_speed = int(parts[1].lstrip())
                     
 
     def _setup(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf, type2x2):
@@ -45,6 +49,7 @@ class Tower(pygame.sprite.Sprite):
         self._tower_hitbox = TowerHitbox(tower_hitbox_surf, self._tower_base, groups[0], type2x2)
 
         self._tower_base.set_hitbox(self._tower_hitbox)
+    
     # deleter
     def delete_tower(self):
         self._tower_base.delete_object()
@@ -77,7 +82,6 @@ class Tower(pygame.sprite.Sprite):
             pos += self._projectile_offset_distance * project_direct
             return pos
         else:
-            print(self._tower_head.get_direction())
             angle_1 = self._tower_head.get_direction().angle_to(pygame.math.Vector2(0, 1))
             angle_2 = self._projectile_offset_direction.angle_to(pygame.math.Vector2(-1, 0))
             angle_1 = -(360 - angle_1) if angle_1 > 0 else angle_1

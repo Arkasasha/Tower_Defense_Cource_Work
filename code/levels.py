@@ -158,7 +158,7 @@ class Level:
         if keys[pygame.K_1]:
             enemy_type = 'tankman'
         if keys[pygame.K_2]:
-            enemy_type = 'spearsmen'
+            enemy_type = 'spearsman'
         if keys[pygame.K_3]:
             enemy_type = 'fish'
         if keys[pygame.K_4]:
