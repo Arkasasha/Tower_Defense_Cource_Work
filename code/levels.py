@@ -1,9 +1,10 @@
 from settings import *
 from map_tiles import *
-from sprites import Portal, Right_panel, Bottom_panel
-from groups import LevelSprites, TowerSprites, EnemySprites, InterfaceSprites
+from sprites import Portal
+from groups import LevelSprites, TowerSprites, EnemySprites, GameScreenSprites
 from Towers.tower_types import Cannon
 from enemies_types import *
+from Interface import *
 
 class Level:
     def __init__(self):
@@ -15,7 +16,7 @@ class Level:
         self._collison_sprites = pygame.sprite.Group()
         self._tower_sprites = TowerSprites()
         self._enemy_sprites = EnemySprites()
-        self._interface_sprites = InterfaceSprites()
+        self._interface_sprites = GameScreenSprites()
 
         # tower grid
         self._tower_grid = [[]]
@@ -73,11 +74,11 @@ class Level:
         Portal(portal_surf, self._level_sprites)
 
         # Load interface
-        right_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Right_panel.png')).convert_alpha()
-        Right_panel(right_panel_surf, self._interface_sprites)
+        right_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Right_panel.png')).convert_alpha()
+        RightPanel(right_panel_surf, self._interface_sprites)
 
-        bottom_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Bottom_panel.png')).convert_alpha()
-        Bottom_panel(bottom_panel_surf, self._interface_sprites)
+        bottom_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Bottom_panel.png')).convert_alpha()
+        BottomPanel(bottom_panel_surf, self._interface_sprites)
 
     def run_the_level(self):
         dt = self._clock.tick() / 1000
@@ -108,6 +109,13 @@ class Level:
         if keys[pygame.K_0]:
             bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
 
+        exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
+        exit_button = ExitButton(exit_button_surf, self._interface_sprites)
+        if pygame.mouse.get_just_pressed()[0] == True:
+            if exit_button.get_rect().collidepoint(pygame.mouse.get_pos()):
+                exit_button.press()
+        
+                    
 
         self._level_sprites.update(dt)
         self._tower_sprites.update(dt)

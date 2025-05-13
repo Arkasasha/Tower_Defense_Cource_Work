@@ -30,8 +30,9 @@ class LevelSprites(pygame.sprite.Group):
         tower_heads = [sprite for sprite in self if hasattr(sprite, 'istower_head')]
         enemie_sprites = [sprite for sprite in self if hasattr(sprite, 'isenemie')]
         projectile_sprites = [sprite for sprite in self if hasattr(sprite, 'isprojectile')]
+        death_sprites = [sprite for sprite in self if hasattr(sprite, 'isdeath')]
         for layer in [terrain_sprites, portal_sprites, range_sprites, hitbox_sprites, tower_sprites,
-                       tower_heads, enemie_sprites, projectile_sprites]:
+                       tower_heads, enemie_sprites, projectile_sprites, death_sprites]:
             for sprite in sorted(layer, key = lambda sprite: sprite.get_rect().centery):
                 if hasattr(sprite, "hasToBeShown"):
                     if not sprite.hasToBeShown:
@@ -50,7 +51,7 @@ class EnemySprites(pygame.sprite.Group):
         super().__init__()
         self._display_surface = pygame.display.get_surface()
 
-class InterfaceSprites(pygame.sprite.Group):
+class GameScreenSprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
         self._display_surface = pygame.display.get_surface()
@@ -58,7 +59,8 @@ class InterfaceSprites(pygame.sprite.Group):
     def draw(self):
         right_panel = [sprite for sprite in self if hasattr(sprite, 'isright_panel')]
         bottom_panel = [sprite for sprite in self if hasattr(sprite, 'isbottom_panel')]
-        for layer in [bottom_panel, right_panel]:
+        exit_button = [sprite for sprite in self if hasattr(sprite, 'isexit_button')]
+        for layer in [bottom_panel, right_panel, exit_button]:
             for sprite in sorted(layer, key = lambda sprite: sprite.get_rect().centery):
                 if hasattr(sprite, "hasToBeShown"):
                     if not sprite.hasToBeShown:

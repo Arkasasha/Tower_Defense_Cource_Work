@@ -41,33 +41,3 @@ class Portal(pygame.sprite.Sprite):
         
     def update(self, dt):
         self._rotate(dt)
-
-class Right_panel(pygame.sprite.Sprite):
-    def __init__(self, surf, groups):
-        super().__init__(groups)
-        self._image = surf
-        self._rect = self._image.get_frect(
-            topleft = pygame.Vector2(1280, 0))
-        self.isright_panel = True
-
-    # getters
-    def get_image(self):
-        return self._image
-
-    def get_rect(self):
-        return self._rect 
-
-class Bottom_panel(pygame.sprite.Sprite):
-    def __init__(self, surf, groups):
-        super().__init__(groups)
-        self._image = surf
-        self._rect = self._image.get_frect(
-            topleft = pygame.Vector2(0, 594))
-        self.isbottom_panel = True
-
-    # getters
-    def get_image(self):
-        return self._image
-
-    def get_rect(self):
-        return self._rect
