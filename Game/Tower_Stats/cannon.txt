@@ -1,0 +1,8 @@
+Cannon { 
+    radius: B
+    damage: 40
+    abilities: None
+    splash: B
+    speed: 300
+    hitbox: 1x1
+}

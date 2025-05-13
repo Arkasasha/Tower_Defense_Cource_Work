@@ -16,6 +16,28 @@ class Tower(pygame.sprite.Sprite):
 
         self._proj_id = 0
 
+    def _set_stats(self, stats_path):
+        with open(stats_path, "r") as file:
+            for line in file:
+                parts = line.strip().split(":")
+                if len(parts) == 2:
+                    if parts[0] == 'radius':
+                        self._range = parts[1].lstrip()
+                    elif parts[0] == 'damage':
+                        self._damage = int(parts[1].lstrip())
+                    elif parts[0] == 'abilities':
+                        if parts[1] == None:
+                            self._abilities = None
+                        else:
+                            self._abilities = parts[1].lstrip()
+                    elif parts[0] == 'splash':
+                        self._splash = parts[1].lstrip()
+                    elif parts[0] == 'speed':
+                        self._cooldown_time = int(parts[1].lstrip())
+                    elif parts[0] == 'hitbox':
+                        self._hitbox_size = parts[1].lstrip()
+                    
+
     def _setup(self, groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf, type2x2):
         self._tower_base = TowerBottom(tower_base_surf, grid, groups[0])
         self._tower_head = TowerHead(tower_head_surf, self._tower_base.get_rect().midtop, self._tower_base, groups[0])

@@ -51,6 +51,5 @@ class ExitButton(pygame.sprite.Sprite):
         return self.exit
 
     def press(self): 
-        print("Exit button pressed")
         pygame.quit()
         sys.exit()

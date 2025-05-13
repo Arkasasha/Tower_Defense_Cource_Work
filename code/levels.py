@@ -30,8 +30,11 @@ class Level:
         self._tower_to_be_placed = None
         self._tower_is_being_placed = False
 
+        # enemy spawning
+        self._next_enemy_id = 0
+        self._last_enemy_spawn_time = pygame.time.get_ticks()
         self._setup()
-    
+
     def _setup(self):
         map = load_pygame(join('Game', 'Map', 'Tower Defense map.tmx'))
 
@@ -91,6 +94,17 @@ class Level:
         exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
         self._exit_button = ExitButton(exit_button_surf, self._interface_sprites)
 
+        self._enemy_timings = []
+        with open(join("Game","enemy_spawn_list.txt"), "r") as file:
+            for line in file:
+                parts = line.strip().split()
+                if len(parts) == 3:
+                    parts[0] = int(parts[0])
+                    parts[2] = int(parts[2])
+                    self._enemy_timings.append(tuple(parts))
+                else:
+                    raise ValueError(f"Skipping line (doesn't have 3 parts): {line}")
+
     # getters
     def get_level_sprites(self):
         return self._level_sprites
@@ -99,6 +113,14 @@ class Level:
         return self._level_sprites
 
     # main functionality
+    def _enemy_spawn_timer(self):
+        current_time = pygame.time.get_ticks()
+        if self._next_enemy_id <= len(self._enemy_timings):
+            if current_time - self._last_enemy_spawn_time >= self._enemy_timings[self._next_enemy_id][2]:
+                self._enemy_factory.create_enemy(self._enemy_timings[self._next_enemy_id][1])
+                self._next_enemy_id += 1
+                self._last_enemy_spawn_time = current_time
+
     def _check_tower_being_placed(self):
         if self._tower_is_being_placed:
             self._tower_to_be_placed.delete_tower()
@@ -172,26 +194,28 @@ class Level:
 
     def run_the_level(self):
         dt = self._clock.tick() / 1000
+
+        # exit the game
+        if pygame.mouse.get_just_pressed()[0] == True:
+            if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                self._exit_button.press()
+
+        # check if tower is still placing
         if self._tower_is_being_placed:
             if self._tower_to_be_placed.get_placement_state():
                 self._tower_is_being_placed = False
                 self._tower_to_be_placed = None
-
-        self._spawn_entity()
-
-        # exit the game
-        if pygame.mouse.get_just_pressed()[0] == True:
-            print(get_fixed_mouse_pos())
-            if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                print("Exit game")
-                self._exit_button.press()
-
+        
         # stop placing tower
         if pygame.mouse.get_just_pressed()[2] == True:
             if self._tower_is_being_placed:
                 self._tower_is_being_placed = False
                 self._tower_to_be_placed.delete_tower()
                 self._tower_to_be_placed = None
+
+        # spawn enemies
+        self._enemy_spawn_timer()
+        self._spawn_entity()
 
         self._update_and_draw_screen(dt)
             

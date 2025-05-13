@@ -5,27 +5,26 @@ from Towers.tower_projectile_types import *
 
 class Cannon(Tower):
     def __init__(self, grid, groups):
+        stats_path = join('Game', 'Tower_Stats', 'cannon.txt')
+        self._set_stats(stats_path)
         tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
         tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'cannon', 'tower', '0.png')).convert_alpha()
-        tower_range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'surface.png')).convert_alpha()
-        tower_range_mask = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'mask.png')).convert_alpha()
-        tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '1x1', 'surface.png')).convert_alpha()
-        super().__init__(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf)
+        tower_range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', self._range, 'surface.png')).convert_alpha()
+        tower_range_mask = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', self._range, 'mask.png')).convert_alpha()
+        tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', self._hitbox_size, 'surface.png')).convert_alpha()
+        super().__init__(groups, grid, tower_base_surf, tower_head_surf,
+                          tower_range_surf, tower_range_mask, tower_hitbox_surf)
 
         self._projectile_offset_direction = pygame.Vector2(-8, 2).normalize()
         self._projectile_offset_distance = 6
-        self._setup_stats()
-
-    def _setup_stats(self):
-        # Stats
-        self._cooldown_time = 300
-        self._damage = 100
     
     def _create_projectile(self):
         CannonProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
 
 class MegaCannon(Tower):
     def __init__(self, grid, groups):
+        stats_path = join('Game', 'Tower_Stats', 'mega_cannon.txt')
+        self._set_stats(stats_path)
         tower_base_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'bottom_tower', 'tower.png')).convert_alpha()
         tower_head_surf = pygame.image.load(join('Game', 'Assets', 'Towers', 'mega_cannon', 'tower', '0.png')).convert_alpha()
         # width, height = tower_head_surf.get_size()
@@ -33,16 +32,12 @@ class MegaCannon(Tower):
         tower_range_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'surface.png')).convert_alpha()
         tower_range_mask = pygame.image.load(join('Game', 'Assets', 'additional', 'radius', 'B', 'mask.png')).convert_alpha()
         tower_hitbox_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Hitbox', '1x1', 'surface.png')).convert_alpha()
-        super().__init__(groups, grid, tower_base_surf, tower_head_surf, tower_range_surf, tower_range_mask, tower_hitbox_surf)
+        
+        super().__init__(groups, grid, tower_base_surf, tower_head_surf, 
+                         tower_range_surf, tower_range_mask, tower_hitbox_surf)
 
         self._projectile_offset_direction = pygame.Vector2(-9, 4).normalize()
         self._projectile_offset_distance = 6
-        self._setup_stats()
-
-    def _setup_stats(self):
-        # Stats
-        self._cooldown_time = 300
-        self._damage = 100
     
     def _create_projectile(self):
         MegaCannonProjectile(self.get_projectile_pos(), self._enemyTracked, self._damage, LevelSprites())
