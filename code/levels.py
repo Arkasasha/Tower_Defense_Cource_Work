@@ -1,9 +1,8 @@
 from settings import *
 from map_tiles import *
-from sprites import Portal
-from groups import LevelSprites, TowerSprites, EnemySprites
+from sprites import Portal, Right_panel, Bottom_panel
+from groups import LevelSprites, TowerSprites, EnemySprites, InterfaceSprites
 from Towers.tower_types import *
-from enemy import Enemy
 from enemies_types import *
 
 class Level:
@@ -16,6 +15,7 @@ class Level:
         self._collison_sprites = pygame.sprite.Group()
         self._tower_sprites = TowerSprites()
         self._enemy_sprites = EnemySprites()
+        self._interface_sprites = InterfaceSprites()
 
         # tower grid
         self._tower_grid = [[]]
@@ -76,6 +76,13 @@ class Level:
         portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
         Portal(portal_surf, self._level_sprites)
 
+        # Load interface
+        right_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Right_panel.png')).convert_alpha()
+        Right_panel(right_panel_surf, self._interface_sprites)
+
+        bottom_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Bottom_panel.png')).convert_alpha()
+        Bottom_panel(bottom_panel_surf, self._interface_sprites)
+        
     def _check_tower_being_placed(self):
         if self._tower_is_being_placed:
             self._tower_to_be_placed.delete_tower()
@@ -120,13 +127,37 @@ class Level:
             self._tower_to_be_placed = MegaXBow(self._tower_grid, (self._level_sprites, self._tower_sprites))
 
         if keys[pygame.K_p]:
-            swordsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
+            Loki(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites)) 
+        if keys[pygame.K_1]:
+            tankman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_2]:
+            spearsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_3]:
+            fish(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_4]:
+            flying_snake(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_5]:
+            rogue(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_6]:
+            red_elemental(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_7]:
+            blue_slime(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_8]:
+            golem(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_9]:
+            ghost(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+        if keys[pygame.K_0]:
+            bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+
 
         self._level_sprites.update(dt)
         self._tower_sprites.update(dt)
+        self._interface_sprites.update(dt)
 
         self._display_surface.fill('#A020F0')
         self._level_sprites.draw()
+        self._interface_sprites.draw()
+
         
         # # Проверка линий
         # for polygon in self._turn_lines:

@@ -49,3 +49,19 @@ class EnemySprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
         self._display_surface = pygame.display.get_surface()
+
+class InterfaceSprites(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()
+        self._display_surface = pygame.display.get_surface()
+        
+    def draw(self):
+        right_panel = [sprite for sprite in self if hasattr(sprite, 'isright_panel')]
+        bottom_panel = [sprite for sprite in self if hasattr(sprite, 'isbottom_panel')]
+        for layer in [bottom_panel, right_panel]:
+            for sprite in sorted(layer, key = lambda sprite: sprite.get_rect().centery):
+                if hasattr(sprite, "hasToBeShown"):
+                    if not sprite.hasToBeShown:
+                        continue
+                self._display_surface.blit(sprite.get_image(), (sprite.get_rect().topleft[0], 
+                                                                sprite.get_rect().topleft[1]))
