@@ -30,8 +30,4 @@ def singleton(cls):
 def get_fixed_mouse_pos():
     mouse_pos = pygame.mouse.get_pos()
     fixed_mouse_pos = [mouse_pos[0] / SCREEN_WINDOW_SCALE[0], mouse_pos[1] / SCREEN_WINDOW_SCALE[1]]
-    if fixed_mouse_pos[0] > LEVEL_SCREEN_WIDTH - 1:
-        fixed_mouse_pos[0] = LEVEL_SCREEN_WIDTH - 1
-    if fixed_mouse_pos[1] > LEVEL_SCREEN_HEIGHT - 1:
-        fixed_mouse_pos[1] = LEVEL_SCREEN_HEIGHT - 1
     return fixed_mouse_pos

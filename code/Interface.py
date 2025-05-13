@@ -1,5 +1,4 @@
 from settings import *
-from groups import GameScreenSprites
 import sys
 
 

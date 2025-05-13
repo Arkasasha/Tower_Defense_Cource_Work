@@ -2,7 +2,7 @@ from settings import *
 from map_tiles import *
 from sprites import Portal
 from groups import LevelSprites, TowerSprites, EnemySprites, LevelScreenSprites
-from Towers.tower_types import Cannon
+from Towers.tower_types import *
 from enemies_types import *
 from Interface import *
 
@@ -85,6 +85,9 @@ class Level:
 
         bottom_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Bottom_panel.png')).convert_alpha()
         BottomPanel(bottom_panel_surf, self._interface_sprites)
+
+        exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
+        self._exit_button = ExitButton(exit_button_surf, self._interface_sprites)
         
     def _check_tower_being_placed(self):
         if self._tower_is_being_placed:
@@ -93,27 +96,7 @@ class Level:
         else:
             self._tower_is_being_placed = True
 
-    def _update_and_draw_screen(self, dt):
-        self._level_sprites.update(dt)
-        self._tower_sprites.update(dt)
-        self._interface_sprites.update(dt)
-
-        self._display_surface.fill('#A020F0')
-        self._level_sprites.draw()
-        self._interface_surface.blit(self._display_surface, (0, 0))
-        self._interface_sprites.draw()
-
-        scaled_surface = pygame.transform.scale(self._interface_surface, (self._SCREEN_WIDTH, self._SCREEN_HEIGHT))
-        self._screen_surface.blit(scaled_surface, (0, 0))
-        pygame.display.flip()
-
-    def run_the_level(self):
-        dt = self._clock.tick() / 1000
-        if self._tower_is_being_placed:
-            if self._tower_to_be_placed.get_placement_state():
-                self._tower_is_being_placed = False
-                self._tower_to_be_placed = None
-
+    def _spawn_entity(self):
         keys = pygame.key.get_just_pressed()
         if keys[pygame.K_q]:
             self._check_tower_being_placed()
@@ -166,11 +149,42 @@ class Level:
         if keys[pygame.K_0]:
             bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
 
-        exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
-        exit_button = ExitButton(exit_button_surf, self._interface_sprites)
+    def _update_and_draw_screen(self, dt):
+        self._level_sprites.update(dt)
+        self._tower_sprites.update(dt)
+        self._interface_sprites.update(dt)
+
+        self._display_surface.fill('#A020F0')
+        self._level_sprites.draw()
+        self._interface_surface.blit(self._display_surface, (0, 0))
+        self._interface_sprites.draw()
+
+        scaled_surface = pygame.transform.scale(self._interface_surface, (self._SCREEN_WIDTH, self._SCREEN_HEIGHT))
+        self._screen_surface.blit(scaled_surface, (0, 0))
+        pygame.display.flip()
+
+    def run_the_level(self):
+        dt = self._clock.tick() / 1000
+        if self._tower_is_being_placed:
+            if self._tower_to_be_placed.get_placement_state():
+                self._tower_is_being_placed = False
+                self._tower_to_be_placed = None
+
+        self._spawn_entity()
+
+        # exit the game
         if pygame.mouse.get_just_pressed()[0] == True:
-            if exit_button.get_rect().collidepoint(pygame.mouse.get_pos()):
-                exit_button.press()
+            print(get_fixed_mouse_pos())
+            if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                print("Exit game")
+                self._exit_button.press()
+
+        # stop placing tower
+        if pygame.mouse.get_just_pressed()[2] == True:
+            if self._tower_is_being_placed:
+                self._tower_is_being_placed = False
+                self._tower_to_be_placed.delete_tower()
+                self._tower_to_be_placed = None
 
         self._update_and_draw_screen(dt)
-
+            

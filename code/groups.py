@@ -52,7 +52,7 @@ class EnemySprites(pygame.sprite.Group):
         self._display_surface = display_surface
 
 class LevelScreenSprites(pygame.sprite.Group):
-    def __init__(self):
+    def __init__(self, display_surface):
         super().__init__()
         self._display_surface = display_surface
         

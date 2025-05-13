@@ -202,8 +202,13 @@ class TowerBottom(pygame.sprite.Sprite):
             self._grid[y+1][x+1] = True
 
     def _place_tower(self):
-        x_count = pygame.Vector2(get_fixed_mouse_pos()).x / TILE_SIZE
-        y_count = pygame.Vector2(get_fixed_mouse_pos()).y / TILE_SIZE
+        fixed_mouse_pos = get_fixed_mouse_pos()
+        if fixed_mouse_pos[0] > LEVEL_SCREEN_WIDTH - 1:
+            fixed_mouse_pos[0] = LEVEL_SCREEN_WIDTH - 1
+        if fixed_mouse_pos[1] > LEVEL_SCREEN_HEIGHT - 1:
+            fixed_mouse_pos[1] = LEVEL_SCREEN_HEIGHT - 1
+        x_count = pygame.Vector2(fixed_mouse_pos).x / TILE_SIZE
+        y_count = pygame.Vector2(fixed_mouse_pos).y / TILE_SIZE
         new_x = int(x_count) * TILE_SIZE - LevelSprites().get_offset()
         new_y = int(y_count) * TILE_SIZE - LevelSprites().get_offset()
         if self._tower_hitbox.get_type() == '2x2':
