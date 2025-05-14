@@ -12,8 +12,6 @@ from Castle import Castle
 class Level:
     def __init__(self):
         self._running = True
-        self._screen_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        self._SCREEN_WIDTH, self._SCREEN_HEIGHT = self._screen_surface.get_size()
         self._display_surface = pygame.Surface((LEVEL_SCREEN_WIDTH, LEVEL_SCREEN_HEIGHT))
         self._interface_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
         self._clock = pygame.time.Clock()
@@ -153,6 +151,12 @@ class Level:
     def get_level_sprites(self):
         return self._level_sprites
 
+    def get_interface_surface(self):
+        return self._interface_surface
+
+    def get_running(self):
+        return self._running
+
     # main functionality
     def _enemy_spawn_timer(self):
         current_time = pygame.time.get_ticks()
@@ -258,18 +262,15 @@ class Level:
         self._interface_sprites.draw()
         self._tower_button_sprites.draw()
 
-        scaled_surface = pygame.transform.scale(self._interface_surface, (self._SCREEN_WIDTH, self._SCREEN_HEIGHT))
-        self._screen_surface.blit(scaled_surface, (0, 0))
-        pygame.display.flip()
-
     def run_the_level(self):
         dt = self._clock.tick() / 1000
 
         # exit the game
         if pygame.mouse.get_just_pressed()[0]:
             if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                pygame.quit()
-                sys.exit()
+                self._running = False
+                # pygame.quit()
+                # sys.exit()
                 
         # check if tower is still placing
         if self._tower_is_being_placed:
@@ -303,8 +304,9 @@ class Level:
                     pass
 
                 elif self._quit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                    pygame.quit()
-                    sys.exit()
+                    self._running = False
+                    # pygame.quit()
+                    # sys.exit()
                 return None
             
             # check tower button press
