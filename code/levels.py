@@ -300,19 +300,19 @@ class Level:
                     quit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Quit.png')).convert_alpha()
                     self._quit_button = QuitButton(quit_button_surf, self._interface_sprites)
 
-            elif self._continue_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                if self._continue_button.press():
-                    self._option_ramka.hasToBeShown = False
-                    self._continue_button.hasToBeShown = False
-                    self._settings_button.hasToBeShown = False
-                    self._quit_button.hasToBeShown = False
+            # elif self._continue_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+            #     if self._continue_button.press():
+            #         self._option_ramka.hasToBeShown = False
+            #         self._continue_button.hasToBeShown = False
+            #         self._settings_button.hasToBeShown = False
+            #         self._quit_button.hasToBeShown = False
                     
-            elif self._settings_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                if self._settings_button.press:
-                    pass
+            # elif self._settings_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+            #     if self._settings_button.press:
+            #         pass
 
-            elif self._quit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                self._quit_button.press()
+            # elif self._quit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+            #     self._quit_button.press()
         
 
         self._castle.take_damage()
