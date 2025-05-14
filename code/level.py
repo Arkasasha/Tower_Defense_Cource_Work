@@ -157,6 +157,10 @@ class Level:
     def get_running(self):
         return self._running
 
+    # setters
+    def set_running(self, state):
+        self._running = state
+
     # main functionality
     def _enemy_spawn_timer(self):
         current_time = pygame.time.get_ticks()
@@ -269,8 +273,6 @@ class Level:
         if pygame.mouse.get_just_pressed()[0]:
             if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
                 self._running = False
-                # pygame.quit()
-                # sys.exit()
                 
         # check if tower is still placing
         if self._tower_is_being_placed:
@@ -305,8 +307,6 @@ class Level:
 
                 elif self._quit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
                     self._running = False
-                    # pygame.quit()
-                    # sys.exit()
                 return None
             
             # check tower button press
@@ -333,6 +333,6 @@ class Level:
 
         # spawn enemies
         self._enemy_spawn_timer()
-        self._spawn_entity()
+        # self._spawn_entity()
 
         self._update_and_draw_screen(dt) 

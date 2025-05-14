@@ -18,8 +18,10 @@ SCREEN_WINDOW_SCALE = (SCREEN_WIDTH / WINDOW_WIDTH, SCREEN_HEIGHT / WINDOW_HEIGH
 
 TILE_SIZE = 32
 
+instances = {}
+
 def singleton(cls):
-    instances = {}
+    global instances
 
     def get_instance(*args, **kwargs):
         if cls not in instances:
@@ -27,6 +29,10 @@ def singleton(cls):
         return instances[cls]
 
     return get_instance
+
+def reset_singleton():
+    global instances
+    instances = {}
 
 def get_fixed_mouse_pos():
     mouse_pos = pygame.mouse.get_pos()
