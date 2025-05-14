@@ -1,9 +1,10 @@
 from settings import *
 from map_tiles import *
 from sprites import Portal
-from groups import LevelSprites, TowerSprites, EnemySprites, LevelScreenSprites
+from groups import *
 from entity_factories import EnemySpawner, TowerSpawner
-from Interface import *
+from Interface import RightPanel, BottomPanel, ExitButton
+from tower_button import *
 from Castle import Castle
 
 class Level:
@@ -19,6 +20,7 @@ class Level:
         self._tower_sprites = TowerSprites(self._display_surface)
         self._enemy_sprites = EnemySprites(self._display_surface)
         self._interface_sprites = LevelScreenSprites(self._interface_surface)
+        self._tower_button_sprites = TowerButtonSprites(self._interface_surface)
 
         # tower grid
         self._tower_grid = [[]]
@@ -107,6 +109,26 @@ class Level:
                     self._enemy_timings.append(tuple(parts))
                 else:
                     raise ValueError(f"Skipping line (doesn't have 3 parts): {line}")
+        
+        tower_button_point = [80, 740]
+        for i in range(8):
+            if i == 0:
+                CannonButton(tower_button_point, self._tower_button_sprites)
+            if i == 1:
+                MegaCannonButton(tower_button_point, self._tower_button_sprites)
+            if i == 2:
+                ReactiveCannonButton(tower_button_point, self._tower_button_sprites)
+            if i == 3:
+                XBowButton(tower_button_point, self._tower_button_sprites)
+            if i == 4:
+                WizardTowerButton(tower_button_point, self._tower_button_sprites)
+            if i == 5:
+                MagicaCanononButton(tower_button_point, self._tower_button_sprites)
+            if i == 6:
+                DrotikTowerButton(tower_button_point, self._tower_button_sprites)
+            if i == 7:
+                MegaXBowButton(tower_button_point, self._tower_button_sprites)
+            tower_button_point[0] += 150
 
     # getters
     def get_level_sprites(self):
@@ -185,11 +207,13 @@ class Level:
         self._level_sprites.update(dt)
         self._tower_sprites.update(dt)
         self._interface_sprites.update(dt)
+        self._tower_button_sprites.update(dt)
 
         self._display_surface.fill('#A020F0')
         self._level_sprites.draw()
         self._interface_surface.blit(self._display_surface, (0, 0))
         self._interface_sprites.draw()
+        self._tower_button_sprites.draw()
 
         scaled_surface = pygame.transform.scale(self._interface_surface, (self._SCREEN_WIDTH, self._SCREEN_HEIGHT))
         self._screen_surface.blit(scaled_surface, (0, 0))

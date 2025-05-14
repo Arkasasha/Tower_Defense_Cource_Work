@@ -82,3 +82,15 @@ class LevelScreenSprites(pygame.sprite.Group):
                         continue
                 self._display_surface.blit(sprite.get_image(), (sprite.get_rect().topleft[0], 
                                                                 sprite.get_rect().topleft[1]))
+
+class TowerButtonSprites(pygame.sprite.Group):
+    def __init__(self, display_surface):
+        super().__init__()
+        self._display_surface = display_surface
+    
+    def draw(self):
+        for sprite in self:
+            self._display_surface.blit(sprite.get_background_image(), (sprite.get_background_rect().topleft[0], 
+                                                                sprite.get_background_rect().topleft[1]))
+            self._display_surface.blit(sprite.get_button_image(), (sprite.get_button_rect().topleft[0] + sprite.get_offset()[0], 
+                                                                sprite.get_button_rect().topleft[1] +  + sprite.get_offset()[1]))
