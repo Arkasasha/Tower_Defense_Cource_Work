@@ -66,6 +66,21 @@ class EnemyInCastle:
         self._damages = []
         return overall_damage
 
+@singleton
+class EnemyDeathMoney:
+    def __init__(self):
+        self._money = []
+    
+    def add_money(self, money):
+        self._money.append(money)
+    
+    def get_money(self):
+        overall_money = 0
+        for money in self._money:
+            overall_money += money
+        self._money = []
+        return overall_money
+
 class LevelScreenSprites(pygame.sprite.Group):
     def __init__(self, display_surface):
         super().__init__()
@@ -83,9 +98,13 @@ class LevelScreenSprites(pygame.sprite.Group):
         wave_text = [sprite for sprite in self if hasattr(sprite, 'iswave_text')]
         coin = [sprite for sprite in self if hasattr(sprite, 'iscoin')]
         money_num = [sprite for sprite in self if hasattr(sprite, 'ismoney_num')]
-        money_text = [sprite for sprite in self if hasattr(sprite, 'ismoney_text')]
+        option_ramka = [sprite for sprite in self if hasattr(sprite, 'isoption_ramka')]
+        continue_button = [sprite for sprite in self if hasattr(sprite, 'iscontinue_button')]
+        settings_button = [sprite for sprite in self if hasattr(sprite, 'issettings_button')]
+        quit_button = [sprite for sprite in self if hasattr(sprite, 'isquit_button')]
         for layer in [bottom_panel, right_panel, health_bar, health_text, wave_num, wave_text, 
-                      coin, money_num, money_text, description, gear_button, exit_button]:
+                      coin, money_num, description, gear_button, exit_button, 
+                      option_ramka, quit_button, settings_button, continue_button]:
             for sprite in sorted(layer, key = lambda sprite: sprite.get_rect().centery):
                 if hasattr(sprite, "hasToBeShown"):
                     if not sprite.hasToBeShown:

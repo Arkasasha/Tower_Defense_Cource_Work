@@ -1,5 +1,5 @@
 from settings import *
-
+from Castle import Castle
 
 class RightPanel(pygame.sprite.Sprite):
     def __init__(self, surf, groups):
@@ -69,7 +69,7 @@ class GearButton(pygame.sprite.Sprite):
         return self._rect
     
     def press(self):
-        print('SSS')
+        return True
 
 class Description(pygame.sprite.Sprite):
     def __init__(self, surf, groups):
@@ -91,16 +91,16 @@ class Description(pygame.sprite.Sprite):
         return self._rect
     
 class HealthBar(pygame.sprite.Sprite):
-    def __init__(self, surf, groups):
+    def __init__(self, castle, groups):
         super().__init__(groups)
-        self._image = surf
-
+        self._castle = castle
+        self._image = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'health_bar', '5.png')).convert_alpha()
         width, height = self._image.get_size()
         self._image = pygame.transform.scale(self._image, (width * 1.7, height * 1.7))
-
         self._rect = self._image.get_frect(
             topleft = pygame.Vector2(1420, 70))
         self.ishealth_bar = True
+
 
     # getters
     def get_image(self):
@@ -108,6 +108,29 @@ class HealthBar(pygame.sprite.Sprite):
 
     def get_rect(self):
         return self._rect
+    
+    def update(self, dt):
+        changed = False
+        if self._castle.get_health() == 4:
+            self._image = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'health_bar', '4.png')).convert_alpha()
+            changed = True
+        elif self._castle.get_health() == 3:
+            self._image = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'health_bar', '3.png')).convert_alpha()
+            changed = True
+        elif self._castle.get_health() == 2:
+            self._image = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'health_bar', '2.png')).convert_alpha()
+            changed = True
+        elif self._castle.get_health() == 1:
+            self._image = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'health_bar', '1.png')).convert_alpha()
+            changed = True
+        elif self._castle.get_health() == 0:
+            self._image = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'health_bar', '0.png')).convert_alpha()
+            changed = True
+
+        if changed:
+            width, height = self._image.get_size()
+            self._image = pygame.transform.scale(self._image, (width * 1.7, height * 1.7))
+            self._rect = self._image.get_frect(center = self._rect.center)
 
 class HealthText(pygame.sprite.Sprite):
     def __init__(self, groups):
@@ -195,11 +218,14 @@ class Coin(pygame.sprite.Sprite):
         self._animate(dt)
 
 class MoneyNum(pygame.sprite.Sprite):
-    def __init__(self, groups):
+    def __init__(self, castle, groups):
         super().__init__(groups)
         self._font = pygame.font.Font(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Oxanium-Bold.ttf'), 40)
-        self._image = self._font.render("0", True, (0, 0, 0))
-        self._rect = self._image.get_frect(topleft = (1460, 705))
+        self._castle = castle
+        
+        self._money_num = 0
+        self._image = self._font.render(f'Money: {self._money_num}', True, (0, 0, 0))
+        self._rect = self._image.get_frect(topleft = (1305, 705))
         self.ismoney_num = True
 
     def get_image(self):
@@ -209,20 +235,80 @@ class MoneyNum(pygame.sprite.Sprite):
         return self._rect
     
     def update(self, dt):
-        current_time = pygame.time.get_ticks() // 100
-        self._image = self._font.render(str(current_time), True, (0, 0, 0))
-        self._rect = self._image.get_frect(topleft = (1460, 705))
+        self._new_money_num = self._castle.get_money()
+        self._image = self._font.render(f'Money: {self._new_money_num}', True, (0, 0, 0))
+        self._rect = self._image.get_frect(topleft = (1305, 705))
 
-class MoneyText(pygame.sprite.Sprite):
-    def __init__(self, groups):
+class OptionRamka(pygame.sprite.Sprite):
+    def __init__(self, surf, groups):
         super().__init__(groups)
-        font = pygame.font.Font(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Oxanium-Bold.ttf'), 30)
-        self._image = font.render("Money:", True, (0, 0, 0))
-        self._rect = self._image.get_frect(topleft = (1305, 710))
-        self.ismoney_text = True
+        self._image = surf
+        self._rect = self._image.get_frect(
+            center = pygame.Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
+        self.isoption_ramka = True
+        self.hasToBeShown = True
 
+    # getters
+    def get_image(self):
+        return self._image
+
+    def get_rect(self):
+        return self._rect 
+    
+class ContinueButton(pygame.sprite.Sprite):
+    def __init__(self, surf, groups):
+        super().__init__(groups)
+        self._image = surf
+        self._rect = self._image.get_frect(
+            center = pygame.Vector2(WINDOW_WIDTH / 2 - 110, 170))
+        self.iscontinue_button = True
+        self.hasToBeShown = True
+
+    # getters
     def get_image(self):
         return self._image
 
     def get_rect(self):
         return self._rect
+    
+    def press(self):
+        return True
+    
+class SettingsButton(pygame.sprite.Sprite):
+    def __init__(self, surf, groups):
+        super().__init__(groups)
+        self._image = surf
+        self._rect = self._image.get_frect(
+            center = pygame.Vector2(WINDOW_WIDTH / 2 - 110, 340))
+        self.issettings_button = True
+        self.hasToBeShown = True
+
+    # getters
+    def get_image(self):
+        return self._image
+
+    def get_rect(self):
+        return self._rect
+    
+    def press(self):
+        return True
+    
+class QuitButton(pygame.sprite.Sprite):
+    def __init__(self, surf, groups):
+        super().__init__(groups)
+        self._image = surf
+        self._rect = self._image.get_frect(
+            center = pygame.Vector2(WINDOW_WIDTH / 2 - 110, 510))
+        self.isquit_button = True
+        self.hasToBeShown = True
+
+    # getters
+    def get_image(self):
+        return self._image
+
+    def get_rect(self):
+        return self._rect
+    
+    def press(self):
+        pygame.quit()
+        sys.exit()

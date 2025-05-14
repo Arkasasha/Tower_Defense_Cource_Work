@@ -20,6 +20,7 @@ class swordsman(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
 class tankman(Enemy):
     def __init__(self, spawn_line, turn_lines, groups):
@@ -40,6 +41,7 @@ class tankman(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
 
 class rogue(Enemy):
@@ -61,6 +63,7 @@ class rogue(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
     
 class spearsman(Enemy):
@@ -82,6 +85,7 @@ class spearsman(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
 
 class fish(Enemy):
@@ -103,6 +107,7 @@ class fish(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
 
 class flying_snake(Enemy):
@@ -124,6 +129,7 @@ class flying_snake(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
 
 class golem(Enemy):
@@ -145,6 +151,7 @@ class golem(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 2
+        self._money = 5
 
 
 class bimba(Enemy):
@@ -159,13 +166,14 @@ class bimba(Enemy):
     def _stats_setup(self):
         self._movement_type = 'ground'
         self._elementatr = 'red'
-        self._speed = 500
+        self._speed = 50
         self._health = 45
         #self._damage = 100   
         #self._attack_cooldown = 1.0
         #self._last_attack_time = 0.0
         #self._attack_range = 50
         self._attack_maintower = 4
+        self._money = 5
 
 
 class red_elemental(Enemy):
@@ -187,6 +195,7 @@ class red_elemental(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 2
+        self._money = 5
 
 
 class blue_elemental(Enemy):
@@ -208,6 +217,7 @@ class blue_elemental(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 2
+        self._money = 5
 
 
 class green_elemental(Enemy):
@@ -229,6 +239,7 @@ class green_elemental(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 2
+        self._money = 5 
 
 
 class yellow_elemental(Enemy):
@@ -250,6 +261,7 @@ class yellow_elemental(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 2
+        self._money = 5
 
 
 class red_slime(Enemy):
@@ -271,6 +283,7 @@ class red_slime(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
     
 class blue_slime(Enemy):
@@ -292,6 +305,7 @@ class blue_slime(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
 
 class Loki(Enemy):
@@ -306,13 +320,14 @@ class Loki(Enemy):
     def _stats_setup(self):
         self._movement_type = 'ground'
         self._elementatr = 'normal'
-        self._speed = 35
+        self._speed = 350
         self._health = 160
         self._damage = 24
         self._attack_cooldown = 0.5
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 3
+        self._money = 5
 
 
 class ghost(Enemy):                                                # It is invisible for the towers, can be killed only by splash
@@ -334,6 +349,7 @@ class ghost(Enemy):                                                # It is invis
         #self._last_attack_time = 0.0
         #self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
 
 class wizard(Enemy):                                               # Can attack towers, from the far distance
@@ -355,6 +371,7 @@ class wizard(Enemy):                                               # Can attack 
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 1
+        self._money = 5
 
 
 class BOSS(Enemy):
@@ -376,3 +393,4 @@ class BOSS(Enemy):
         self._last_attack_time = 0.0
         self._attack_range = 50
         self._attack_maintower = 3
+        self._money = 5
