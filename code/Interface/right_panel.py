@@ -19,10 +19,6 @@ class ExitButton(pygame.sprite.Sprite):
     def get_exit(self):
         return self.exit
 
-    def press(self): 
-        pygame.quit()
-        sys.exit()
-
 class GearButton(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
@@ -37,9 +33,6 @@ class GearButton(pygame.sprite.Sprite):
 
     def get_rect(self):
         return self._rect
-    
-    def press(self):
-        return True
 
 class HealthBar(pygame.sprite.Sprite):
     def __init__(self, castle, groups):

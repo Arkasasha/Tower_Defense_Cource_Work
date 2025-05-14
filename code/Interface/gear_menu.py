@@ -32,9 +32,6 @@ class ContinueButton(pygame.sprite.Sprite):
     def get_rect(self):
         return self._rect
     
-    def press(self):
-        return True
-    
 class SettingsButton(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
@@ -51,9 +48,6 @@ class SettingsButton(pygame.sprite.Sprite):
     def get_rect(self):
         return self._rect
     
-    def press(self):
-        return True
-    
 class QuitButton(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
@@ -69,7 +63,3 @@ class QuitButton(pygame.sprite.Sprite):
 
     def get_rect(self):
         return self._rect
-    
-    def press(self):
-        pygame.quit()
-        sys.exit()

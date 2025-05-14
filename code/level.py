@@ -37,12 +37,16 @@ class Level:
         self._tower_is_being_placed = False
         self._pressed_tower_button = None
 
+        # castle
         self._castle = Castle()
 
         # enemy spawning
         self._next_enemy_id = 0
         self._last_enemy_spawn_time = pygame.time.get_ticks()
         self._setup()
+
+        # settings menu
+        self._settings_menu_status = False
 
     def _setup(self):
         map = load_pygame(join('Game', 'Map', 'Tower Defense map.tmx'))
@@ -219,7 +223,13 @@ class Level:
     def _click_on_bottom_panel(self):
         mouse_pos = get_fixed_mouse_pos()
         if mouse_pos[0] >= 0 and mouse_pos[0] < 1280:
-            if mouse_pos[1] > 641 and mouse_pos[1] <= WINDOW_HEIGHT:
+            if mouse_pos[1] > 640 and mouse_pos[1] <= WINDOW_HEIGHT:
+                return True
+        return False
+
+    def _click_on_right_panel(self):
+        mouse_pos = get_fixed_mouse_pos()
+        if mouse_pos[0] >= 1280 and mouse_pos[0] < WINDOW_WIDTH:
                 return True
         return False
 
@@ -231,12 +241,16 @@ class Level:
                     self._pressed_tower_button.set_pressed_state(False)
                 sprite.set_pressed_state(True)
                 self._pressed_tower_button = sprite
+                return True
+        return False
 
     def _update_and_draw_screen(self, dt):
-        self._level_sprites.update(dt)
-        self._tower_sprites.update(dt)
-        self._interface_sprites.update(dt)
-        self._tower_button_sprites.update(dt)
+        # stops the game when settings menu opened
+        if not self._settings_menu_status:
+            self._level_sprites.update(dt)
+            self._tower_sprites.update(dt)
+            self._interface_sprites.update(dt)
+            self._tower_button_sprites.update(dt)
 
         self._display_surface.fill('#A020F0')
         self._level_sprites.draw()
@@ -254,7 +268,9 @@ class Level:
         # exit the game
         if pygame.mouse.get_just_pressed()[0]:
             if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                self._exit_button.press()
+                pygame.quit()
+                sys.exit()
+                
         # check if tower is still placing
         if self._tower_is_being_placed:
             if self._tower_to_be_placed.get_placement_state():
@@ -273,36 +289,41 @@ class Level:
                 self._pressed_tower_button = None
 
         if pygame.mouse.get_just_pressed()[0] == True:
+            # check if settings menu is opened
+            if self._settings_menu_status:
+                # setting menu functionallity
+                if self._continue_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                    self._settings_menu_status = False
+                    self._option_ramka.hasToBeShown = False
+                    self._continue_button.hasToBeShown = False
+                    self._settings_button.hasToBeShown = False
+                    self._quit_button.hasToBeShown = False
+                        
+                elif self._settings_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                    pass
+
+                elif self._quit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                    pygame.quit()
+                    sys.exit()
+                return None
             
             # check tower button press
             if self._click_on_bottom_panel():
-                self._tower_button_got_pressed()
-                self._spawn_tower()
+                # bottom panel functionality
+                if self._tower_button_got_pressed():
+                    self._spawn_tower()
+                    return None
                 return None
 
-            elif self._gear_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                if self._gear_button.press():
+            # check right panel press
+            if self._click_on_right_panel():
+                # right panel functionality
+                if self._gear_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                    self._settings_menu_status = True
                     self._option_ramka = OptionRamka(self._interface_sprites)
-
                     self._continue_button = ContinueButton(self._interface_sprites)
-
                     self._settings_button = SettingsButton(self._interface_sprites)
-
                     self._quit_button = QuitButton(self._interface_sprites)
-
-            # elif self._continue_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-            #     if self._continue_button.press():
-            #         self._option_ramka.hasToBeShown = False
-            #         self._continue_button.hasToBeShown = False
-            #         self._settings_button.hasToBeShown = False
-            #         self._quit_button.hasToBeShown = False
-                    
-            # elif self._settings_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-            #     if self._settings_button.press:
-            #         pass
-
-            # elif self._quit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-            #     self._quit_button.press()
         
 
         self._castle.take_damage()
