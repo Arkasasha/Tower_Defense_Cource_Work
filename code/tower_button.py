@@ -11,7 +11,7 @@ class CannonButton(TowerButton):
         surf = pygame.image.load(join('Game', 'Assets', 'Towers', self._get_type(), 'tower', '0.png')).convert_alpha()
         width, height = surf.get_size()
         surf = pygame.transform.scale(surf, (width * 3, height * 3))
-        super().__init__(surf, pos, self._get_type(), groups)
+        super().__init__(surf, pos, self._get_type(), groups, offset = (20, 30))
 
 class MegaCannonButton(TowerButton):
     type = 'mega_cannon'
@@ -23,8 +23,7 @@ class MegaCannonButton(TowerButton):
         surf = pygame.image.load(join('Game', 'Assets', 'Towers', self._get_type(), 'tower', '0.png')).convert_alpha()
         width, height = surf.get_size()
         surf = pygame.transform.scale(surf, (width * 3, height * 3))
-        super().__init__(surf, pos, self._get_type(), groups)
-        self._offset = (0, 10)
+        super().__init__(surf, pos, self._get_type(), groups, offset = (8, 12))
 
 class ReactiveCannonButton(TowerButton):
     type = 'reactive_cannon'
@@ -36,8 +35,7 @@ class ReactiveCannonButton(TowerButton):
         surf = pygame.image.load(join('Game', 'Assets', 'Towers', self._get_type(), 'tower', '0.png')).convert_alpha()
         width, height = surf.get_size()
         surf = pygame.transform.scale(surf, (width * 3, height * 3))
-        super().__init__(surf, pos, self._get_type(), groups)
-        self._offset = (0, 10)
+        super().__init__(surf, pos, self._get_type(), groups, offset = (8, 10))
 
 class XBowButton(TowerButton):
     type = 'Xbow'
@@ -50,7 +48,6 @@ class XBowButton(TowerButton):
         width, height = surf.get_size()
         surf = pygame.transform.scale(surf, (width * 3, height * 3))
         super().__init__(surf, pos, self._get_type(), groups)
-        self._offset = (-6, 0)
 
 class WizardTowerButton(TowerButton):
     type = 'wizard_tower'
@@ -62,7 +59,7 @@ class WizardTowerButton(TowerButton):
         surf = pygame.image.load(join('Game', 'Assets', 'Towers', self._get_type(), 'tower', '0.png')).convert_alpha()
         width, height = surf.get_size()
         surf = pygame.transform.scale(surf, (width * 2, height * 2))
-        super().__init__(surf, pos, self._get_type(), groups)
+        super().__init__(surf, pos, self._get_type(), groups, offset = (22, 20))
 
 class MagicaCanononButton(TowerButton):
     type = 'magic_cannon'
@@ -74,8 +71,7 @@ class MagicaCanononButton(TowerButton):
         surf = pygame.image.load(join('Game', 'Assets', 'Towers', self._get_type(), 'tower', '0.png')).convert_alpha()
         width, height = surf.get_size()
         surf = pygame.transform.scale(surf, (width * 3, height * 3))
-        super().__init__(surf, pos, self._get_type(), groups)
-        self._offset = (0, 10)
+        super().__init__(surf, pos, self._get_type(), groups, offset = (8, 10)) 
 
 class DrotikTowerButton(TowerButton):
     type = 'drotik_tower'
@@ -87,7 +83,7 @@ class DrotikTowerButton(TowerButton):
         surf = pygame.image.load(join('Game', 'Assets', 'Towers', self._get_type(), 'tower', '0.png')).convert_alpha()
         width, height = surf.get_size()
         surf = pygame.transform.scale(surf, (width * 1.7, height * 1.7))
-        super().__init__(surf, pos, self._get_type(), groups)
+        super().__init__(surf, pos, self._get_type(), groups, offset = (32, 25))
 
 class MegaXBowButton(TowerButton):
     type = 'mega_xbow'
@@ -99,4 +95,4 @@ class MegaXBowButton(TowerButton):
         surf = pygame.image.load(join('Game', 'Assets', 'Towers', self._get_type(), 'tower', '0.png')).convert_alpha()
         width, height = surf.get_size()
         surf = pygame.transform.scale(surf, (width * 2.5, height * 2.5))
-        super().__init__(surf, pos, self._get_type(), groups)
+        super().__init__(surf, pos, self._get_type(), groups, offset = (10, 15))

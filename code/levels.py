@@ -9,6 +9,7 @@ from Castle import Castle
 
 class Level:
     def __init__(self):
+        self._running = True
         self._screen_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self._SCREEN_WIDTH, self._SCREEN_HEIGHT = self._screen_surface.get_size()
         self._display_surface = pygame.Surface((LEVEL_SCREEN_WIDTH, LEVEL_SCREEN_HEIGHT))
@@ -32,6 +33,7 @@ class Level:
         # tower placing check
         self._tower_to_be_placed = None
         self._tower_is_being_placed = False
+        self._pressed_tower_button = None
 
         self._castle = Castle()
 
@@ -93,8 +95,7 @@ class Level:
         right_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Right_panel.png')).convert_alpha()
         RightPanel(right_panel_surf, self._interface_sprites)
 
-        bottom_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Bottom_panel.png')).convert_alpha()
-        BottomPanel(bottom_panel_surf, self._interface_sprites)
+        BottomPanel(self._interface_sprites)
 
         exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
         self._exit_button = ExitButton(exit_button_surf, self._interface_sprites)
@@ -155,27 +156,6 @@ class Level:
 
     def _spawn_entity(self):
         keys = pygame.key.get_just_pressed()
-        tower_type = None
-        if keys[pygame.K_q]:
-            tower_type = 'cannon'
-        if keys[pygame.K_w]:
-            tower_type = 'mega_cannon'
-        if keys[pygame.K_e]:
-            tower_type = 'reactive_cannon'
-        if keys[pygame.K_r]:
-            tower_type = 'Xbow'
-        if keys[pygame.K_t]:
-            tower_type = 'wizard_tower'
-        if keys[pygame.K_y]:
-            tower_type = 'magic_cannon'
-        if keys[pygame.K_u]:
-            tower_type = 'drotik_tower'
-        if keys[pygame.K_i]:
-            tower_type = 'mega_xbow'
-        if tower_type != None:
-            self._check_tower_being_placed()
-            self._tower_to_be_placed = self._tower_factory.create_tower(tower_type)
-
 
         enemy_type = None
         if keys[pygame.K_p]:
@@ -203,6 +183,44 @@ class Level:
         if enemy_type != None:
             self._enemy_factory.create_enemy(enemy_type)
 
+    def _spawn_tower(self):
+        tower_type = None
+        if isinstance(self._pressed_tower_button, CannonButton):
+            tower_type = 'cannon'
+        if isinstance(self._pressed_tower_button, MegaCannonButton):
+            tower_type = 'mega_cannon'
+        if isinstance(self._pressed_tower_button, ReactiveCannonButton):
+            tower_type = 'reactive_cannon'
+        if isinstance(self._pressed_tower_button, XBowButton):
+            tower_type = 'Xbow'
+        if isinstance(self._pressed_tower_button, WizardTowerButton):
+            tower_type = 'wizard_tower'
+        if isinstance(self._pressed_tower_button, MagicaCanononButton):
+            tower_type = 'magic_cannon'
+        if isinstance(self._pressed_tower_button, DrotikTowerButton):
+            tower_type = 'drotik_tower'
+        if isinstance(self._pressed_tower_button, MegaXBowButton):
+            tower_type = 'mega_xbow'
+        if tower_type != None:
+            self._check_tower_being_placed()
+            self._tower_to_be_placed = self._tower_factory.create_tower(tower_type)
+
+    def _click_on_bottom_panel(self):
+        mouse_pos = get_fixed_mouse_pos()
+        if mouse_pos[0] >= 0 and mouse_pos[0] < 1280:
+            if mouse_pos[1] > 641 and mouse_pos[1] <= WINDOW_HEIGHT:
+                return True
+        return False
+
+    def _tower_button_got_pressed(self):
+        mouse_pos = get_fixed_mouse_pos()
+        for sprite in self._tower_button_sprites:
+            if sprite.get_rect().collidepoint(mouse_pos):
+                if self._pressed_tower_button != None:
+                    self._pressed_tower_button.set_pressed_state(False)
+                sprite.set_pressed_state(True)
+                self._pressed_tower_button = sprite
+
     def _update_and_draw_screen(self, dt):
         self._level_sprites.update(dt)
         self._tower_sprites.update(dt)
@@ -222,16 +240,13 @@ class Level:
     def run_the_level(self):
         dt = self._clock.tick() / 1000
 
-        # exit the game
-        if pygame.mouse.get_just_pressed()[0] == True:
-            if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                self._exit_button.press()
-
         # check if tower is still placing
         if self._tower_is_being_placed:
             if self._tower_to_be_placed.get_placement_state():
                 self._tower_is_being_placed = False
                 self._tower_to_be_placed = None
+                self._pressed_tower_button.set_pressed_state(False)
+                self._pressed_tower_button = None
         
         # stop placing tower
         if pygame.mouse.get_just_pressed()[2] == True:
@@ -239,6 +254,19 @@ class Level:
                 self._tower_is_being_placed = False
                 self._tower_to_be_placed.delete_tower()
                 self._tower_to_be_placed = None
+                self._pressed_tower_button.set_pressed_state(False)
+                self._pressed_tower_button = None
+
+        if pygame.mouse.get_just_pressed()[0] == True:
+            # exit the game
+            if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                self._exit_button.press()
+            
+            # check tower button press
+            if self._click_on_bottom_panel():
+                self._tower_button_got_pressed()
+                self._spawn_tower()
+                return None
 
         self._castle.get_damage()
 
