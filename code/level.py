@@ -7,6 +7,7 @@ from Interface.Interface import *
 from Interface.right_panel import *
 from Interface.tower_button import *
 from Interface.gear_menu import *
+from Interface.bottom_panel import ScrollLine
 from Castle import Castle
 
 class Level:
@@ -41,10 +42,14 @@ class Level:
         # enemy spawning
         self._next_enemy_id = 0
         self._last_enemy_spawn_time = pygame.time.get_ticks()
-        self._setup()
+        self._enemy_spawn_offset = 0
+        self._zawarudo_time = None
 
         # settings menu
         self._settings_menu_status = False
+
+
+        self._setup()
 
     def _setup(self):
         map = load_pygame(join('Game', 'Map', 'Tower Defense map.tmx'))
@@ -98,6 +103,7 @@ class Level:
         RightPanel(self._interface_sprites)
 
         BottomPanel(self._interface_sprites)
+        ScrollLine(self._interface_sprites)
 
         Description(self._interface_sprites)
 
@@ -105,7 +111,7 @@ class Level:
         HealthBar(self._castle ,self._interface_sprites)
         HealthText(self._interface_sprites)
 
-        WaveNum(self._interface_sprites)
+        self._wave_num = WaveNum(self._interface_sprites)
         WaveText(self._interface_sprites)
 
         
@@ -127,7 +133,7 @@ class Level:
                 else:
                     raise ValueError(f"Skipping line (doesn't have 3 parts): {line}")
         
-        tower_button_point = [80, 740]
+        tower_button_point = [140, 725]
         for i in range(8):
             if i == 0:
                 CannonButton(tower_button_point, self._tower_button_sprites)
@@ -164,9 +170,14 @@ class Level:
     # main functionality
     def _enemy_spawn_timer(self):
         current_time = pygame.time.get_ticks()
+        current_time -= self._enemy_spawn_offset
         if self._next_enemy_id <= len(self._enemy_timings):
             if current_time - self._last_enemy_spawn_time >= self._enemy_timings[self._next_enemy_id][2]:
                 self._enemy_factory.create_enemy(self._enemy_timings[self._next_enemy_id][1])
+                self._enemy_spawn_offset = 0
+                self._zawarudo_time = None
+                if self._enemy_timings[self._next_enemy_id][2] > 10000 or self._next_enemy_id == 0:
+                    self._wave_num.new_wave()
                 self._next_enemy_id += 1
                 self._last_enemy_spawn_time = current_time
 
@@ -255,10 +266,15 @@ class Level:
     def _update_and_draw_screen(self, dt):
         # stops the game when settings menu opened
         if not self._settings_menu_status:
+            self._enemy_spawn_timer()
             self._level_sprites.update(dt)
             self._tower_sprites.update(dt)
             self._interface_sprites.update(dt)
             self._tower_button_sprites.update(dt)
+        else:
+            current_time = pygame.time.get_ticks()
+            self._enemy_spawn_offset += current_time - self._zawarudo_time
+            self._zawarudo_time = current_time
 
         self._display_surface.fill('#A020F0')
         self._level_sprites.draw()
@@ -296,6 +312,7 @@ class Level:
             if self._settings_menu_status:
                 # setting menu functionallity
                 if self._continue_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                    self._zawarudo_time = None
                     self._settings_menu_status = False
                     self._option_ramka.hasToBeShown = False
                     self._continue_button.hasToBeShown = False
@@ -322,6 +339,7 @@ class Level:
                 # right panel functionality
                 if self._gear_button.get_rect().collidepoint(get_fixed_mouse_pos()):
                     self._settings_menu_status = True
+                    self._zawarudo_time = pygame.time.get_ticks()
                     self._option_ramka = OptionRamka(self._interface_sprites)
                     self._continue_button = ContinueButton(self._interface_sprites)
                     self._settings_button = SettingsButton(self._interface_sprites)
@@ -332,7 +350,6 @@ class Level:
         self._castle.take_money()
 
         # spawn enemies
-        self._enemy_spawn_timer()
         # self._spawn_entity()
 
         self._update_and_draw_screen(dt) 

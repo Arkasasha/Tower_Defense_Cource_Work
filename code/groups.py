@@ -102,7 +102,8 @@ class LevelScreenSprites(pygame.sprite.Group):
         continue_button = [sprite for sprite in self if hasattr(sprite, 'iscontinue_button')]
         settings_button = [sprite for sprite in self if hasattr(sprite, 'issettings_button')]
         quit_button = [sprite for sprite in self if hasattr(sprite, 'isquit_button')]
-        for layer in [bottom_panel, right_panel, health_bar, health_text, wave_num, wave_text, 
+        scroll_line = [sprite for sprite in self if hasattr(sprite, 'isscroll_line')]
+        for layer in [bottom_panel, scroll_line, right_panel, health_bar, health_text, wave_num, wave_text, 
                       coin, money_num, description, gear_button, exit_button, 
                       option_ramka, quit_button, settings_button, continue_button]:
             for sprite in sorted(layer, key = lambda sprite: sprite.get_rect().centery):
