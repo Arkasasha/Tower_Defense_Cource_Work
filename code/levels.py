@@ -3,7 +3,7 @@ from map_tiles import *
 from sprites import Portal
 from groups import *
 from entity_factories import EnemySpawner, TowerSpawner
-from Interface import RightPanel, BottomPanel, ExitButton
+from Interface import *
 from tower_button import *
 from Castle import Castle
 
@@ -96,6 +96,23 @@ class Level:
         RightPanel(right_panel_surf, self._interface_sprites)
 
         BottomPanel(self._interface_sprites)
+
+        description_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'description.png')).convert_alpha()
+        Description(description_surf, self._interface_sprites)
+
+        
+        HealthBar(self._castle ,self._interface_sprites)
+        HealthText(self._interface_sprites)
+
+        WaveNum(self._interface_sprites)
+        WaveText(self._interface_sprites)
+
+        
+        Coin(self._interface_sprites)
+        MoneyNum(self._castle, self._interface_sprites)
+
+        gear_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Gear_button.png')).convert_alpha()
+        self._gear_button = GearButton(gear_button_surf, self._interface_sprites)
 
         exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
         self._exit_button = ExitButton(exit_button_surf, self._interface_sprites)
@@ -240,6 +257,10 @@ class Level:
     def run_the_level(self):
         dt = self._clock.tick() / 1000
 
+        # exit the game
+        if pygame.mouse.get_just_pressed()[0]:
+            if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                self._exit_button.press()
         # check if tower is still placing
         if self._tower_is_being_placed:
             if self._tower_to_be_placed.get_placement_state():
@@ -258,9 +279,6 @@ class Level:
                 self._pressed_tower_button = None
 
         if pygame.mouse.get_just_pressed()[0] == True:
-            # exit the game
-            if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
-                self._exit_button.press()
             
             # check tower button press
             if self._click_on_bottom_panel():
@@ -268,7 +286,37 @@ class Level:
                 self._spawn_tower()
                 return None
 
-        self._castle.get_damage()
+            elif self._gear_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                if self._gear_button.press():
+                    option_ramka_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Ramka.png')).convert_alpha()
+                    self._option_ramka = OptionRamka(option_ramka_surf, self._interface_sprites)
+
+                    continue_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Continue.png')).convert_alpha()
+                    self._continue_button = ContinueButton(continue_button_surf, self._interface_sprites)
+
+                    settings_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Settings.png')).convert_alpha()
+                    self._settings_button = SettingsButton(settings_button_surf, self._interface_sprites)
+
+                    quit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Quit.png')).convert_alpha()
+                    self._quit_button = QuitButton(quit_button_surf, self._interface_sprites)
+
+            elif self._continue_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                if self._continue_button.press():
+                    self._option_ramka.hasToBeShown = False
+                    self._continue_button.hasToBeShown = False
+                    self._settings_button.hasToBeShown = False
+                    self._quit_button.hasToBeShown = False
+                    
+            elif self._settings_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                if self._settings_button.press:
+                    pass
+
+            elif self._quit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                self._quit_button.press()
+        
+
+        self._castle.take_damage()
+        self._castle.take_money()
 
         # spawn enemies
         self._enemy_spawn_timer()
