@@ -94,6 +94,24 @@ class Level:
         bottom_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Bottom_panel.png')).convert_alpha()
         BottomPanel(bottom_panel_surf, self._interface_sprites)
 
+        description_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'description.png')).convert_alpha()
+        Description(description_surf, self._interface_sprites)
+
+        health_bar_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'health_bar', '5.png')).convert_alpha()
+        HealthBar(health_bar_surf, self._interface_sprites)
+        HealthText(self._interface_sprites)
+
+        WaveNum(self._interface_sprites)
+        WaveText(self._interface_sprites)
+
+        
+        Coin(self._interface_sprites)
+        MoneyNum(self._interface_sprites)
+        MoneyText(self._interface_sprites)
+
+        gear_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Gear_button.png')).convert_alpha()
+        self._gear_button = GearButton(gear_button_surf, self._interface_sprites)
+
         exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
         self._exit_button = ExitButton(exit_button_surf, self._interface_sprites)
 
@@ -202,6 +220,8 @@ class Level:
         if pygame.mouse.get_just_pressed()[0] == True:
             if self._exit_button.get_rect().collidepoint(get_fixed_mouse_pos()):
                 self._exit_button.press()
+            elif self._gear_button.get_rect().collidepoint(get_fixed_mouse_pos()):
+                self._gear_button.press()
 
         # check if tower is still placing
         if self._tower_is_being_placed:

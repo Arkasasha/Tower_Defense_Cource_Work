@@ -75,7 +75,17 @@ class LevelScreenSprites(pygame.sprite.Group):
         right_panel = [sprite for sprite in self if hasattr(sprite, 'isright_panel')]
         bottom_panel = [sprite for sprite in self if hasattr(sprite, 'isbottom_panel')]
         exit_button = [sprite for sprite in self if hasattr(sprite, 'isexit_button')]
-        for layer in [bottom_panel, right_panel, exit_button]:
+        gear_button = [sprite for sprite in self if hasattr(sprite, 'isgear_button')]
+        description = [sprite for sprite in self if hasattr(sprite, 'isdescription')]
+        health_bar = [sprite for sprite in self if hasattr(sprite, 'ishealth_bar')]
+        health_text = [sprite for sprite in self if hasattr(sprite, 'ishealth_text')]
+        wave_num = [sprite for sprite in self if hasattr(sprite, 'iswave_num')]
+        wave_text = [sprite for sprite in self if hasattr(sprite, 'iswave_text')]
+        coin = [sprite for sprite in self if hasattr(sprite, 'iscoin')]
+        money_num = [sprite for sprite in self if hasattr(sprite, 'ismoney_num')]
+        money_text = [sprite for sprite in self if hasattr(sprite, 'ismoney_text')]
+        for layer in [bottom_panel, right_panel, health_bar, health_text, wave_num, wave_text, 
+                      coin, money_num, money_text, description, gear_button, exit_button]:
             for sprite in sorted(layer, key = lambda sprite: sprite.get_rect().centery):
                 if hasattr(sprite, "hasToBeShown"):
                     if not sprite.hasToBeShown:
