@@ -3,8 +3,10 @@ from map_tiles import *
 from sprites import Portal
 from groups import *
 from entity_factories import EnemySpawner, TowerSpawner
-from Interface import *
-from tower_button import *
+from Interface.Interface import *
+from Interface.right_panel import *
+from Interface.tower_button import *
+from Interface.gear_menu import *
 from Castle import Castle
 
 class Level:
@@ -88,17 +90,14 @@ class Level:
         self._tower_factory = TowerSpawner(self._tower_grid, self._level_sprites, self._tower_sprites)
 
         # Load a portal
-        portal_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
-        Portal(portal_surf, self._level_sprites)
+        Portal(self._level_sprites)
 
         # Load interface
-        right_panel_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Right_panel.png')).convert_alpha()
-        RightPanel(right_panel_surf, self._interface_sprites)
+        RightPanel(self._interface_sprites)
 
         BottomPanel(self._interface_sprites)
 
-        description_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'description.png')).convert_alpha()
-        Description(description_surf, self._interface_sprites)
+        Description(self._interface_sprites)
 
         
         HealthBar(self._castle ,self._interface_sprites)
@@ -111,11 +110,9 @@ class Level:
         Coin(self._interface_sprites)
         MoneyNum(self._castle, self._interface_sprites)
 
-        gear_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Gear_button.png')).convert_alpha()
-        self._gear_button = GearButton(gear_button_surf, self._interface_sprites)
+        self._gear_button = GearButton(self._interface_sprites)
 
-        exit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Exit_button.png')).convert_alpha()
-        self._exit_button = ExitButton(exit_button_surf, self._interface_sprites)
+        self._exit_button = ExitButton(self._interface_sprites)
 
         self._enemy_timings = []
         with open(join("Game","enemy_spawn_list.txt"), "r") as file:
@@ -149,9 +146,6 @@ class Level:
             tower_button_point[0] += 150
 
     # getters
-    def get_level_sprites(self):
-        return self._level_sprites
-    
     def get_level_sprites(self):
         return self._level_sprites
 
@@ -288,17 +282,13 @@ class Level:
 
             elif self._gear_button.get_rect().collidepoint(get_fixed_mouse_pos()):
                 if self._gear_button.press():
-                    option_ramka_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Ramka.png')).convert_alpha()
-                    self._option_ramka = OptionRamka(option_ramka_surf, self._interface_sprites)
+                    self._option_ramka = OptionRamka(self._interface_sprites)
 
-                    continue_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Continue.png')).convert_alpha()
-                    self._continue_button = ContinueButton(continue_button_surf, self._interface_sprites)
+                    self._continue_button = ContinueButton(self._interface_sprites)
 
-                    settings_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Settings.png')).convert_alpha()
-                    self._settings_button = SettingsButton(settings_button_surf, self._interface_sprites)
+                    self._settings_button = SettingsButton(self._interface_sprites)
 
-                    quit_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 'Game_screen', 'Quit.png')).convert_alpha()
-                    self._quit_button = QuitButton(quit_button_surf, self._interface_sprites)
+                    self._quit_button = QuitButton(self._interface_sprites)
 
             # elif self._continue_button.get_rect().collidepoint(get_fixed_mouse_pos()):
             #     if self._continue_button.press():

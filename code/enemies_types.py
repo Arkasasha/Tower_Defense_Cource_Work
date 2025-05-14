@@ -9,6 +9,7 @@ class swordsman(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -30,6 +31,7 @@ class tankman(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -52,6 +54,7 @@ class rogue(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -74,6 +77,7 @@ class spearsman(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -96,6 +100,7 @@ class fish(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -118,6 +123,7 @@ class flying_snake(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'air'
@@ -140,6 +146,7 @@ class golem(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -162,6 +169,7 @@ class bimba(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -184,6 +192,7 @@ class red_elemental(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'air'
@@ -206,6 +215,7 @@ class blue_elemental(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'air'
@@ -228,6 +238,7 @@ class green_elemental(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'air'
@@ -250,6 +261,7 @@ class yellow_elemental(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'air'
@@ -272,6 +284,7 @@ class red_slime(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -294,6 +307,7 @@ class blue_slime(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -316,6 +330,7 @@ class Loki(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -338,6 +353,7 @@ class ghost(Enemy):                                                # It is invis
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -360,6 +376,7 @@ class wizard(Enemy):                                               # Can attack 
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'
@@ -382,6 +399,7 @@ class BOSS(Enemy):
         super().__init__(surf, spawn_line, turn_lines, groups)
 
         self._stats_setup()
+        self._set_max_health()
 
     def _stats_setup(self):
         self._movement_type = 'ground'

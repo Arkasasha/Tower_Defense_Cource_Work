@@ -57,10 +57,13 @@ class Enemy(pygame.sprite.Sprite):
     def is_died(self):
         return self._is_dead
     
+    def _set_max_health(self):
+        self._max_health = self._health
+
     # functions
     def deal_damage(self, damage, damage_type):
         if isinstance(damage, str):
-            damage = self._health * (int(damage[:-1]) / 100)
+            damage = self._max_health * (int(damage[:-1]) / 100)  # Set percent damage from hp
         else:
             if self._elementatr == 'normal' and damage_type == 'normal':
                 damage = damage * 1.0

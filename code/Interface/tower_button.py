@@ -1,5 +1,5 @@
 from settings import *
-from Interface import TowerButton
+from Interface.bottom_panel import TowerButton
 
 class CannonButton(TowerButton):
     type = 'cannon'

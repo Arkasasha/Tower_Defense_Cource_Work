@@ -14,10 +14,10 @@ class Terrain(pygame.sprite.Sprite):
         return self._rect
 
 class Portal(pygame.sprite.Sprite):
-    def __init__(self, surf, groups):
+    def __init__(self, groups):
         super().__init__(groups)
-        self._orig_surf = surf
-        self._image = surf
+        self._orig_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Portal', 'portal.png')).convert_alpha()
+        self._image = self._orig_surf
         self._rect = self._image.get_frect(
             center = pygame.Vector2(48, 128))
         self.isportal = True

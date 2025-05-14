@@ -1,5 +1,5 @@
 from settings import *
-from levels import Level
+from level import Level
 from pytmx.util_pygame import load_pygame
 
 from random import randint

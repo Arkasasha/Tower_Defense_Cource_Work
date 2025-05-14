@@ -13,7 +13,7 @@ class EnemySpawner:
     def create_enemy(self, enemy_type):
         if enemy_type == 'bimba':
             bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
-        if enemy_type == 'blue_elemental':
+        elif enemy_type == 'blue_elemental':
             pass
         elif enemy_type == 'blue_slime':
             blue_slime(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
