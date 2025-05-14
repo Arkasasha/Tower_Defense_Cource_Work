@@ -116,6 +116,7 @@ class WaveNum(pygame.sprite.Sprite):
         self._image = self._font.render("0", True, (0, 0, 0))
         self._rect = self._image.get_frect(topleft = (1460, 135))
         self.iswave_num = True
+        self._wave_num = 0
 
     def get_image(self):
         return self._image
@@ -123,9 +124,11 @@ class WaveNum(pygame.sprite.Sprite):
     def get_rect(self):
         return self._rect
     
+    def new_wave(self):
+        self._wave_num += 1
+
     def update(self, dt):
-        current_time = pygame.time.get_ticks() // 100
-        self._image = self._font.render(str(current_time), True, (0, 0, 0))
+        self._image = self._font.render(str(self._wave_num), True, (0, 0, 0))
         self._rect = self._image.get_frect(topleft = (1460, 135))
 
 class WaveText(pygame.sprite.Sprite):
