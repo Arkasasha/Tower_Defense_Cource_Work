@@ -44,12 +44,20 @@ class TowerSprites(pygame.sprite.Group):
     def __init__(self, display_surface):
         super().__init__()
         self._display_surface = display_surface
+    
+    def draw(self):
+        for sprite in self:
+            self._display_surface.blit(sprite.get_image, sprite.get_rect)
 
 @singleton
 class EnemySprites(pygame.sprite.Group):
     def __init__(self, display_surface):
         super().__init__()
         self._display_surface = display_surface
+
+    def draw(self):
+        for sprite in self:
+            self._display_surface.blit(sprite.get_image, sprite.get_rect)
 
 @singleton     
 class EnemyInCastle:
