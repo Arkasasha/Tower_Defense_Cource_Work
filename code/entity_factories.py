@@ -12,35 +12,35 @@ class EnemySpawner:
 
     def create_enemy(self, enemy_type):
         if enemy_type == 'bimba':
-            bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return bimba(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'blue_elemental':
             pass
         elif enemy_type == 'blue_slime':
-            blue_slime(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return blue_slime(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'fish':
-            fish(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return fish(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'flying_snake':
-            flying_snake(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return flying_snake(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'ghost':
-            ghost(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return ghost(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'golem':
-            golem(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return golem(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'green_elemental':
             pass  
         elif enemy_type == 'LOKI':
-            Loki(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return Loki(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'red_elemental':
-            red_elemental(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return red_elemental(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'red_slime':
             pass
         elif enemy_type == 'rogue':
-            rogue(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return rogue(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'spearsman':
-            spearsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return spearsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'swordsman':
-            swordsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return swordsman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'tankman':
-            tankman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
+            return tankman(self._spawn_line, self._turn_lines, (self._level_sprites, self._enemy_sprites))
         elif enemy_type == 'wizard':
             pass
         elif enemy_type == 'yellow_elemental':

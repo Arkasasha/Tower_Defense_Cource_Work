@@ -3,7 +3,8 @@ from enemies_types import *
 from groups import EnemyInCastle, EnemyDeathMoney
 
 class Castle:
-    def __init__(self):
+    def __init__(self, level):
+        self._level = level
         self._health = 5
         self._money = 0
         self._enemy_in_castle = EnemyInCastle()
@@ -12,9 +13,7 @@ class Castle:
     def take_damage(self):
         self._health -= self._enemy_in_castle.get_damage()
         if self._health <= 0:
-            print('Game Over')
-            pygame.quit
-            sys.exit()
+            self._level.set_running(False)
     
     def take_money(self):
         self._money += self._enemy_death_money.get_money()

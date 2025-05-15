@@ -37,7 +37,7 @@ class Level:
         self._pressed_tower_button = None
 
         # castle
-        self._castle = Castle()
+        self._castle = Castle(self)
 
         # enemy spawning
         self._next_enemy_id = 0
