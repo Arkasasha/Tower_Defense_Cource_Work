@@ -48,10 +48,10 @@ class Game:
                                              'Levels_screen', 'Background.png')).convert_alpha()
         self._levels_screen_rect = self._levels_screen.get_frect(topleft = (0, 0))
 
-        levels_background_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 
-                                             'Levels_screen', 'Ramka.png')).convert_alpha()
-        levels_background_rect = levels_background_surf.get_frect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
-        self._levels_screen.blit(levels_background_surf, levels_background_rect)
+        # levels_background_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 
+        #                                      'Levels_screen', 'Ramka.png')).convert_alpha()
+        # levels_background_rect = levels_background_surf.get_frect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
+        # self._levels_screen.blit(levels_background_surf, levels_background_rect)
 
         back_button_surf = pygame.image.load(join('Game', 'Assets', 'additional', 'Interface', 
                                              'Levels_screen', 'back.png')).convert_alpha()
